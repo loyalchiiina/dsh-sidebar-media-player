@@ -1,0 +1,12 @@
+# dsh-media-player bundle patch
+#
+# 装进某个 profile 时，profile boot 会合并本补丁：一条 `insert`，即插件在
+# cordis.yml 里的挂载行。entry 的 `name` 必须与 package.json 的 name 完全一致
+# —— client-modules 扫描靠它把 ./client 解析出来，并挂到
+# /plugins/dsh-media-player/client.js。
+#
+# 本文件只是一份「初始声明」：DSH 的设置页会反向改写 profile 里的
+# cordis.patch.yml（不是本文件）。本地 link 测试时请手改 profile 的那份。
+- insert:
+    - id: dsh-media-player
+      name: 'dsh-media-player'
