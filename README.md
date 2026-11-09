@@ -1,10 +1,10 @@
-# 侧边栏多媒体播放器（dsh-media-player）
+# 侧边栏多媒体播放器（dsh-sidebar-media-player）
 
 侧边栏统一音视频播放器，作为 `dsh-better-sidebar` 的配套插件，接管侧边栏里音视频文件的预览。一个 viewer 同时覆盖视频与音频扩展名，解决过去做不好的三件事：**能拖的进度条**（HTTP Range 206 流式）、**实时频谱**、**音准读数**；并新增**视频字幕**（同名 `.srt/.vtt/.ass` 自动加载）与**音频歌词**（同名 `.lrc` 滚动高亮）。
 
 **适配 DSH 内核 0.2.2-rc.1。**
 
-- 版本：0.1.1（首个正式发布版本）
+- 版本：0.2.0（首个正式发布版本）
 - 依赖：`dsh-better-sidebar`（提供 `ctx.betterSidebar` 文件查看器注册服务）
 
 ## 功能
@@ -28,14 +28,14 @@
 本插件是 `dsh-better-sidebar` 的配套插件，安装命令：
 
 ```bash
-dsh plugin add dsh-media-player
+dsh plugin add dsh-sidebar-media-player
 ```
 
 > 桌面端 `desktop` profile 由 Electron 独占管理（`dsh plugin --profile desktop add` 会被 CLI 直接拒绝），需走「真实副本 + 只加 bundles」的方式手动挂载：
 >
 > 1. 备份 `~/.dsh/profiles/desktop/package.json` 与 `cordis.patch.yml`；
-> 2. 把 `local-plugins/dsh-media-player` 复制成**真实副本**到 `~/.dsh/profiles/desktop/node_modules/dsh-media-player`（**不要**用 `link:`/`file:` 依赖，也不要直接改 pnpm 装出来的目录）；
-> 3. 在 profile `package.json` 的 `dsh.profile.bundles` 数组里追加 `"dsh-media-player"`；
+> 2. 把 `local-plugins/dsh-sidebar-media-player` 复制成**真实副本**到 `~/.dsh/profiles/desktop/node_modules/dsh-sidebar-media-player`（**不要**用 `link:`/`file:` 依赖，也不要直接改 pnpm 装出来的目录）；
+> 3. 在 profile `package.json` 的 `dsh.profile.bundles` 数组里追加 `"dsh-sidebar-media-player"`；
 > 4. **彻底退出 DSH 客户端再启动**（宿主是 Node 进程，无热重载）；
 > 5. 在侧边栏打开任意 `.mp3` / `.mp4` 验证。
 
@@ -56,9 +56,9 @@ dsh plugin add dsh-media-player
 ## 文件结构
 
 ```
-dsh-media-player/
+dsh-sidebar-media-player/
 ├── package.json        # name/version/type/main/exports/dsh.bundle/dsh.client
-├── cordis.patch.yml    # insert 1 条 entry（id=name=dsh-media-player）
+├── cordis.patch.yml    # insert 1 条 entry（id=name=dsh-sidebar-media-player）
 ├── lib/index.js        # host：Range(206) 媒体路由 + 安全围栏
 ├── lib/client.js       # client：__ModuleLoader__ bundle + viewer（音视频统一）
 ├── docs/screenshots/   # 两张真实界面截图
@@ -74,13 +74,13 @@ dsh-media-player/
 
 ---
 
-# dsh-media-player (Sidebar Media Player)
+# dsh-sidebar-media-player (Sidebar Media Player)
 
 A unified audio + video player for `dsh-better-sidebar`: one sidebar file viewer that takes over previewing audio/video files. It fixes the three things that used to be broken — **a draggable progress bar** (streamed over an HTTP Range 206 route), **a live spectrum**, and **a pitch readout** — and adds **video subtitles** (same-name `.srt/.vtt/.ass` auto-loaded) and **audio lyrics** (same-name `.lrc`, scroll-highlighted).
 
 **Adapts the DSH kernel 0.2.2-rc.1.**
 
-- Version: 0.1.1 (first public release)
+- Version: 0.2.0 (first public release)
 - Requires: `dsh-better-sidebar` (provides the `ctx.betterSidebar` file-viewer registration service)
 
 ## Features
@@ -104,14 +104,14 @@ A unified audio + video player for `dsh-better-sidebar`: one sidebar file viewer
 This plugin is a companion to `dsh-better-sidebar`:
 
 ```bash
-dsh plugin add dsh-media-player
+dsh plugin add dsh-sidebar-media-player
 ```
 
 > On desktop, the `desktop` profile is managed exclusively by Electron (`dsh plugin --profile desktop add` is rejected by the CLI), so mount it manually with a real copy + bundles-only:
 >
 > 1. Back up `~/.dsh/profiles/desktop/package.json` and `cordis.patch.yml`;
-> 2. Copy `local-plugins/dsh-media-player` into `~/.dsh/profiles/desktop/node_modules/dsh-media-player` as a **real copy** (do **not** use `link:`/`file:` deps, and do not edit the pnpm-installed directory);
-> 3. Append `"dsh-media-player"` to the profile `package.json`'s `dsh.profile.bundles` array;
+> 2. Copy `local-plugins/dsh-sidebar-media-player` into `~/.dsh/profiles/desktop/node_modules/dsh-sidebar-media-player` as a **real copy** (do **not** use `link:`/`file:` deps, and do not edit the pnpm-installed directory);
+> 3. Append `"dsh-sidebar-media-player"` to the profile `package.json`'s `dsh.profile.bundles` array;
 > 4. **Fully quit and relaunch the DSH client** (the host is a Node process, no hot reload);
 > 5. Open any `.mp3` / `.mp4` in the sidebar to verify.
 

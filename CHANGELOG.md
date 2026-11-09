@@ -2,6 +2,11 @@
 
 所有值得注意的变更都会记录在此文件。
 
+## 0.2.0 — 2026-11-10（改名版本）
+
+- **插件全链路改名**：`dsh-media-player` → `dsh-sidebar-media-player`。npm 包名、GitHub 仓库 slug、宿主路由前缀（`/dsh-sidebar-media-player/media|lyric|subtitle`）、client bundle id、localStorage 偏好 key、profile 挂载项（deps + bundles + junction）一并变更。
+- **历史版本保留旧名**：0.1.1 / 0.1.2 仍以 `dsh-media-player` 名义发布，内容不变；旧包名将在 npm 上 deprecate 指向 `dsh-sidebar-media-player`。
+- 升级方式：卸载旧包名 → 安装 `dsh-sidebar-media-player`（本地 profile 挂载同理改 `dependencies` 与 `dsh.profile.bundles`）。
 ## 0.1.2 — 2026-11-09
 
 - 截图更新：换为两张真实界面效果图（视频+字幕设置面板、音频+歌词+频谱+音准），移除旧图。

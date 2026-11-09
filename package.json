@@ -1,6 +1,6 @@
 {
-  "name": "dsh-media-player",
-  "version": "0.1.2",
+  "name": "dsh-sidebar-media-player",
+  "version": "0.2.0",
   "description": "Unified audio + video player for dsh-better-sidebar: one file viewer for mp4/webm/mov/m4v/ogv and mp3/wav/flac/ogg/opus/m4a/aac, with a draggable whole-track scrubber, live spectrum bars and pitch (Hz + note name), streamed from a Range(206) host route so seeking really works.",
   "type": "module",
   "main": "lib/index.js",
@@ -37,15 +37,15 @@
   "author": "loyalchiiina",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/loyalchiiina/dsh-media-player.git"
+    "url": "git+https://github.com/loyalchiiina/dsh-sidebar-media-player.git"
   },
   "engines": {
     "node": "^22.19.0 || >=24.0.0",
-    "dsh": ">=0.2.1-rc.3"
+    "dsh": ">=0.2.2-rc.1"
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.2",
-    "@deepseek-ai/dsh": ">=0.2.1-rc.3"
+    "@deepseek-ai/dsh": ">=0.2.2-rc.1"
   },
   "dsh": {
     "bundle": {
