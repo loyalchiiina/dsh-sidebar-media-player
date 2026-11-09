@@ -19,11 +19,9 @@
 
 ## 截图
 
-![播放器界面](docs/screenshots/01-player.png)
+![视频 + 字幕（字幕设置面板）](docs/screenshots/01-video-subtitle.png)
 
-![音频 + 歌词滚动](docs/screenshots/02-lyric.png)
-
-![视频 + 字幕](docs/screenshots/03-subtitle.png)
+![音频 + 歌词 + 频谱 + 音准](docs/screenshots/02-audio-lyric.png)
 
 ## 安装
 
@@ -63,7 +61,7 @@ dsh-media-player/
 ├── cordis.patch.yml    # insert 1 条 entry（id=name=dsh-media-player）
 ├── lib/index.js        # host：Range(206) 媒体路由 + 安全围栏
 ├── lib/client.js       # client：__ModuleLoader__ bundle + viewer（音视频统一）
-├── docs/screenshots/   # 三张真实界面截图
+├── docs/screenshots/   # 两张真实界面截图
 ├── screenshots.json    # 插件市场配图清单（纯数组）
 ├── CHANGELOG.md
 ├── README.md
@@ -97,11 +95,9 @@ A unified audio + video player for `dsh-better-sidebar`: one sidebar file viewer
 
 ## Screenshots
 
-![Player](docs/screenshots/01-player.png)
+![Video + subtitles (subtitle settings panel)](docs/screenshots/01-video-subtitle.png)
 
-![Audio + lyrics](docs/screenshots/02-lyric.png)
-
-![Video + subtitles](docs/screenshots/03-subtitle.png)
+![Audio + lyrics + spectrum + pitch](docs/screenshots/02-audio-lyric.png)
 
 ## Install
 
