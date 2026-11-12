@@ -12,7 +12,8 @@
     "screenshots.json",
     "docs/screenshots/**",
     "!lib/*.bak*",
-    "!lib/**/*.bak*"
+    "!lib/**/*.bak*",
+    "!lib/*.BROKEN*"
   ],
   "exports": {
     ".": "./lib/index.js",
