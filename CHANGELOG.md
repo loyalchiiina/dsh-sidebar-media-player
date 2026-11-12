@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.2.4 (2026-11-12) — 播放器页签行新增 ⟳ 检查更新
+
+- 播放器面板页签行（本地库 / 系统配置 …）右侧新增 ⟳：查 npm 最新版 → 有新版变蓝「更新到 vX」→ 再点一键安装到 desktop profile。
+- 复用技能浏览器的全局更新委托（window.__dshUpdClick）。
+- 纯客户端改动：Ctrl+Shift+R 硬刷新生效。
+
+## 0.2.3
+- 修复「启动正常但侧边栏功能失效」：上一版用 setInterval 轮询后重入 apply，而 apply 已经在 fiber 激活完成后才调用，注册被静默吞掉。现改用 cordis 官方响应式注入 ctx.inject(["betterSidebar"], cb)，服务就绪时自行执行注册。
+
+## 0.2.2
+- 启动稳定性：服务从 declared inject 移除（避免 pending 卡住 web boot），改为安全取值器 __safeSvc 加最多 30s 轮询。
+
+## 0.2.1
+- 修复启动崩溃：client half 把 `betterSidebar` 写成硬依赖 `inject = ["betterSidebar"]`，
+  better-sidebar 升级到 0.31.1 后宿主侧服务未就绪，client-module loader 让本 entry
+  永久停在 loading，整个 web boot 报「1 entry did not activate」→ renderer recovery
+  循环（2026-11-12 12:00 崩溃实录）。改为软依赖，服务不在时静默跳过，不再拖住启动。
+
 所有值得注意的变更都会记录在此文件。
 
 ## 0.2.0 — 2026-11-10（改名版本）
