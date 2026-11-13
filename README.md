@@ -4,6 +4,11 @@
 
 **适配 DSH 内核 0.2.2-rc.1。**
 
+> ⚠️ **当前状态：本版本（0.2.x）bug 较多，正在重做中。** 播放、进度条拖动、频谱等功能的稳定性尚不完整，建议先不要把关键任务依赖它；新版完成前功能与接口都可能有变动。
+> ⚠️ **Status: the current 0.2.x build has a number of known bugs and is being reworked.** Playback, seeking and spectrum stability are not complete yet;
+> avoid depending on it for critical work until the rework ships.
+
+
 - 版本：0.2.0（首个正式发布版本）
 - 依赖：`dsh-better-sidebar`（提供 `ctx.betterSidebar` 文件查看器注册服务）
 
