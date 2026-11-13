@@ -5,6 +5,13 @@
 - 0.2.x 阶段的播放、拖动 seek、频谱/音准读数仍有多处已知缺陷，功能与接口可能大幅变动。
 - 本仓库保持公开以便反馈，但**不建议在关键任务上依赖**；重做完成后会以新版本号发布。
 
+## 0.2.5 (2026-11-13)
+
+- 状态标注：README、package.json description 与 locale/*.json 的 meta.description 明确写出「当前 0.2.x 版本 bug 较多，正在重做中」，避免用户误以为这是稳定版。
+- 修正 lib/client.js 的 VERSION（此前一直停在 0.2.0，与 package.json 不一致）。
+- 补 icon.svg + exports 的 ./icon 与 ./locale/*.json + files 收录，符合官方 dsh-doc 图标与 locale 规范。
+- 功能代码未改动，已知缺陷仍在。
+
 ## 0.2.4 (2026-11-12) — 播放器页签行新增 ⟳ 检查更新
 
 - 播放器面板页签行（本地库 / 系统配置 …）右侧新增 ⟳：查 npm 最新版 → 有新版变蓝「更新到 vX」→ 再点一键安装到 desktop profile。
