@@ -1,0 +1,7 @@
+{
+  "name": "dsh-sidebar-media-player",
+  "meta": {
+    "title": "Sidebar media player",
+    "description": "Unified audio and video viewer for the sidebar: mp4/webm/mov and mp3/wav/flac play inline with a draggable Range(206) scrubber, live spectrum and pitch readout, plus automatic same-name subtitle and lyric tracks."
+  }
+}
