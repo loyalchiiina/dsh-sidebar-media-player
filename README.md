@@ -112,6 +112,8 @@
 
 ## 已知限制
 
+- **QQ 登录态的存放位置**：当前版本仍把 QQ 音乐登录 Cookie 写在本机 `~/.dsh/sidebar-media-player-qq-cookie.json`（明文、仅本机可见），尚未迁到 DSH 官方的凭据服务（`ctx.credentials`）。后续版本会迁移；迁移前请自行注意该文件的存在与清理。
+
 - QQ 音乐的付费 / VIP 曲目受登录账号权限限制；无版权或下架曲目无法播放。
 - 浏览器原生不支持的编码（wma / ape / ncm / qmc）只能提示，不能解码。
 - 无歌词 / 无时间轴的曲目显示「无歌词」；逐字歌词缺失时回落到整行歌词。
@@ -249,6 +251,8 @@ Upgrading to 0.2.6 runs a **one-time migration** (localStorage marker `smp.appea
 ![The sidebar player panel in another state (pitch readout C2 66.2 Hz)](docs/screenshots/03-panel-qq-alt.png)
 
 ## Known limitations
+
+- **Where the QQ login state lives**: this version still writes the QQ Music login cookie to a plaintext file at `~/.dsh/sidebar-media-player-qq-cookie.json` (local machine only) instead of the official DSH credential service (`ctx.credentials`). A later version will migrate it; until then be aware of that file and clean it up yourself.
 
 - Paid/VIP QQ Music tracks depend on the signed-in account; unavailable or delisted tracks cannot be played.
 - Codecs the browser cannot decode (wma / ape / ncm / qmc) can only be reported.
