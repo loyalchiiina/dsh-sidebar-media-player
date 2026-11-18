@@ -2,6 +2,7 @@
   "name": "dsh-sidebar-media-player",
   "meta": {
     "title": "Sidebar media player",
-    "description": "Unified audio and video viewer for the sidebar: mp4/webm/mov and mp3/wav/flac play inline with a draggable Range(206) scrubber, live spectrum and pitch readout, same-name subtitles and lyrics. Adds a player panel (QQ Music online library with favourites synced to the account, local music library) and a capsule bar that can sit above the input box, at the bottom, or be hidden."
+    "description": "Unified audio and video viewer for the sidebar: mp4/webm/mov and mp3/wav/flac play inline with a draggable Range(206) scrubber, live spectrum and pitch readout (Hz + note + cents), same-name subtitles and lyrics. Adds a player panel (QQ Music online library with favourites synced to the account, local music library) and a capsule bar that can sit above the input box, at the bottom, or be hidden. Third-party hobby tool, not an official QQ Music product and not affiliated with Tencent; it only plays the user's own QQ Music playlists, takes no part in any official campaign, and the repository is taken down on a rights-holder request.",
+    "detail": "docs/DETAIL.md"
   }
 }

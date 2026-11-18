@@ -9,6 +9,32 @@
 - 版本：0.2.6
 - 依赖：`dsh-better-sidebar`（提供 `ctx.betterSidebar` 文件查看器注册服务；缺失时插件自动降级，不影响 DSH 启动）
 
+## 免责申明（请先读）
+
+本插件是**第三方爱好者工具，不是 QQ 音乐官方产品，与腾讯 / QQ 音乐没有任何隶属或合作关系**。
+
+- **目的**：只为了让 QQ 音乐的忠实用户，能在自己的 DSH 侧边栏里更方便地播放**自己账号的 QQ 音乐歌单**。
+- **范围**：仅支持「播放 QQ 音乐列表」这一件事；**不支持、也不参与任何官方活动**——不做签到、不做任务、不领券、不刷播放量、不破解会员权益、不下载版权内容。
+- **内容归属**：所有音乐、账号与版权均归腾讯 / QQ 音乐所有。本插件不存储、不分发任何音频文件，播放走的是用户自己已登录的账号。
+- **请移步官方**：需要完整功能、会员权益或官方活动，请使用 QQ 音乐官方客户端 / 官网（y.qq.com）。
+- **侵权即删**：若权利方认为本项目构成侵权，请告知，**收到通知后立即删除仓库（连同 npm 包与 Release）**，不做申辩或拖延。
+
+## 来源与致谢（哪些是照抄的、哪些是自己做的）
+
+为避免误会，把来源讲清楚：
+
+**照抄第三方原作者的部分（上游 MIT）**
+
+- **胶囊播放条的 UI 设计与落位方式**：输入框上方 / 页面底部的落位行为、两层容器结构、尺寸与样式数值、悬停收起机制 —— 逐字照抄 `dsh-music-player v1.0.4`（MIT，作者 kendu76），源码内已注明参照位置。
+- **QQ 音乐接口层**：`lib/qq.js` 的接口签名、请求与响应解析，以及 `lib/qrc.js` 的扫码登录渲染 —— 来自上游实现（MIT），版权归原作者。
+
+**本人设计并实现的部分**
+
+- 把播放器**整个搬进侧边栏**：`ctx.betterSidebar` viewer 注册、侧边栏播放器面板、页签行（QQ音乐 / 本地音乐 / 隐藏列表 / ⟲ / ⟳）。
+- **胶囊上的按钮**：收藏、上一首、播放暂停、下一首、停止、音量、播放列表，以及与侧边栏按钮一一对应的同一控制源。
+- **界面改造**：控件行 18 枚同风格按钮、胶囊三态位置（上 / 下 / 隐藏）、精简播放条、歌词区与频谱 / 音准区、列表 6–10 列、唱片占位图、翻页与「播放全部」同行。
+- **主要功能**：本地音乐库与整文件 Blob seek、收藏与 QQ 音乐「我喜欢」同源、循环三态对手动切歌生效、歌词 5 档动效、字幕、默认值与一次性迁移。
+
 ## 功能
 
 ### 1. 侧边栏统一音视频播放器
@@ -20,14 +46,14 @@
 
 ### 2. 侧边栏播放器面板（两个页签：QQ音乐 / 本地音乐）
 
-- **顶部播放器区**：唱盘 + 歌名、歌词区（两句 / 歌词板）、实时频谱（柱状 / 波形）、音准读数（Hz + 音名）、进度条、控件行。
+- **顶部播放器区**：唱盘 + 歌名、歌词区（两句 / 歌词板）、实时频谱（柱状 / 波形）、音准读数（Hz + 音名 + 音分刻度尺）、进度条、控件行。
 - **页签行**：`QQ音乐` / `本地音乐` 两个页签（点页签自动展开列表）+ `隐藏列表`（只留上方播放器）+ `⟲` 刷新 QQ 数据（不重载页面、不中断播放）+ `⟳` 检查更新。
-- **控件行（18 枚同风格按钮，单行不折行）**：收藏、上一首、播放/暂停、下一首、停止、音量、倍速 0.5–2、循环（顺序 → 单曲 → 随机）、频谱开关、频谱样式（柱状/波形）、字幕、歌词开关、歌词模式（两句/歌词板）、歌词动效（无/上滑/模糊/卡拉OK/炫彩 5 档）、胶囊位置（上/下/隐藏）、列表列数（6–10）、精简播放条、下载原文件。
+- **控件行（18 枚候选同风格按钮，同屏最多 17 枚——字幕钮只在视频出现、歌词模式钮只在音频出现；单行不折行）**：收藏、上一首、播放/暂停、下一首、停止、音量、倍速 0.5–2、循环（顺序 → 单曲 → 随机）、频谱开关、频谱样式（柱状/波形）、字幕、歌词开关、歌词模式（两句/歌词板）、歌词动效（无/上滑/模糊/卡拉OK/炫彩 5 档）、胶囊位置（上/下/隐藏）、列表列数（6–10）、精简播放条、下载原文件。
 - 原「系统配置」独立页已并入控件行，不再有单独的设置页。
 
 ### 3. 本地音乐库
 
-- 递归扫描目录（音乐库根 + 扫描深度），支持「重新扫描」「选目录」、播放全部、点行播放。
+- 递归扫描音乐库目录（扫描深度固定 8 层，当前无 UI 可调），支持「重新扫描」「选目录」、点行播放；列表最多显示前 2 万条。
 - 音频项走**整文件 Blob** 读取 → 时长与 seek 完整可靠（这是本地曲能拖动快进的关键）；**视频**与 >250MB 大文件仍走 `/media` 直链，避免占内存。
 - 无封面的歌单/条目统一用**唱片图标**占位；列表行内也带一枚小唱片标记。
 
@@ -122,10 +148,34 @@ A unified audio + video player for `dsh-better-sidebar`. One viewer takes over a
 
 **Adapts the DSH kernel 0.2.2-rc.1; current version 0.2.6.**
 
-> Since 0.2.6, the previously documented defects (undroppable scrubber, dead next/favourite/rate controls, lyrics effects not applying, capsule disappearing after changing position) have been fixed one by one, each verified with machine assertions and static previews. Trying it on a small scale first is still recommended.
+> Since 0.2.6, the previously documented defects (undroppable scrubber, dead next/favourite/rate controls, lyrics effects not applying, capsule disappearing after changing position) have been fixed one by one. Defaults, source changes and the packed file list were checked with machine assertions during development; those check scripts live in the development environment and are not shipped in this package. Trying it on a small scale first is still recommended.
 
 - Version: 0.2.6
 - Requires: `dsh-better-sidebar` (provides the `ctx.betterSidebar` viewer registration service; when absent the plugin degrades gracefully and never blocks DSH startup)
+
+## Disclaimer (please read first)
+
+This plugin is a **third-party hobby tool. It is not an official QQ Music product and has no affiliation or partnership with Tencent / QQ Music.**
+
+- **Purpose**: only to make it easier for loyal QQ Music users to play **their own QQ Music playlists** inside their own DSH sidebar.
+- **Scope**: playing QQ Music playlists and nothing else. It does **not** support or take part in any official campaign — no check-ins, no quests, no coupons, no play-count inflation, no membership bypass, no downloading of copyrighted content.
+- **Ownership**: all music, accounts and copyrights belong to Tencent / QQ Music. This plugin stores and distributes no audio; playback uses the account the user has already signed in with.
+- **Use the official app**: for full features, membership benefits or official campaigns, please use the official QQ Music client or site (y.qq.com).
+- **Takedown on request**: if a rights holder considers this project infringing, tell us and the **repository will be deleted immediately, together with the npm package and any Release**.
+
+## Credits & provenance (what is copied, what is original)
+
+**Copied from third-party upstream (MIT)**
+
+- **The capsule bar UI design and placement**: the dock-above-input / bottom-of-window behaviour, the two-layer container structure, the size and style values and the hover-collapse mechanism are copied verbatim from `dsh-music-player v1.0.4` (MIT, by kendu76); the source marks every reference location.
+- **The QQ Music API layer**: request signing, calls and response parsing in `lib/qq.js`, plus the QR login renderer `lib/qrc.js`, come from that upstream implementation (MIT). Copyright remains with the original author.
+
+**Designed and implemented here**
+
+- Moving the whole player **into the sidebar**: the `ctx.betterSidebar` viewer registration, the player panel, and the tab row (QQ音乐 / 本地音乐 / hide list / ⟲ / ⟳).
+- **The capsule buttons**: favourite, previous, play/pause, next, stop, volume and playlist, all driven by the same store as the sidebar buttons.
+- **The UI rework**: the 18-button control row in one style, the three-state capsule position (top / bottom / hidden), the compact bar, the lyric + spectrum + pitch area, 6–10 grid columns, vinyl artwork fallback, pager next to "play all".
+- **The main features**: local library with whole-file Blob seeking, favourites shared with QQ Music's "I like", loop modes that also apply to manual next, five lyric effects, subtitles, defaults plus the one-time migration.
 
 ## Features
 
@@ -136,16 +186,16 @@ A unified audio + video player for `dsh-better-sidebar`. One viewer takes over a
 - **Draggable scrubber**: self-hosted Range(206) streaming route; when the desktop shell strips `content-length`, a whole-file Blob rescue keeps duration and seeking working.
 - **Unsupported codecs** (wma / ape / ncm / qmc …) produce an explicit message instead of silence.
 
-### 2. Player panel (two tabs: QQ Music / Local Music)
+### 2. Player panel (two tabs: QQ音乐 / 本地音乐)
 
-- **Top player area**: turntable + title, lyrics (two-line or lyric board), live spectrum (bars or wave), pitch readout (Hz + note name), scrubber, control row.
-- **Tab row**: `QQ音乐` / `Local Music` tabs (clicking a tab auto-expands the list) + `Hide list` (keeps only the top player) + `⟲` refresh QQ data (no page reload, no playback interruption) + `⟳` check for updates.
-- **Control row (18 same-style buttons, one line, no wrapping)**: favourite, previous, play/pause, next, stop, volume, playback rate 0.5–2, loop (order → single → shuffle), spectrum on/off, spectrum style (bars/wave), subtitles, lyrics on/off, lyric mode (two-line/board), lyric effect (none/slide/blur/karaoke/rainbow), capsule position (top/bottom/hidden), grid columns (6–10), compact bar, download original file.
+- **Top player area**: turntable + title, lyrics (two-line or lyric board), live spectrum (bars or wave), pitch readout (Hz + note name + cents ruler), scrubber, control row.
+- **Tab row**: `QQ音乐` / `本地音乐` tabs (clicking a tab auto-expands the list) + `Hide list` (keeps only the top player) + `⟲` refresh QQ data (no page reload, no playback interruption) + `⟳` check for updates.
+- **Control row (18 candidate buttons in one style, at most 17 on screen — the subtitle button only appears for video and the lyric-mode button only for audio; one line, no wrapping)**: favourite, previous, play/pause, next, stop, volume, playback rate 0.5–2, loop (order → single → shuffle), spectrum on/off, spectrum style (bars/wave), subtitles, lyrics on/off, lyric mode (two-line/board), lyric effect (none/slide/blur/karaoke/rainbow), capsule position (top/bottom/hidden), grid columns (6–10), compact bar, download original file.
 - The former standalone "settings" tab has been folded into this control row.
 
 ### 3. Local music library
 
-- Recursively scans a directory (root + depth), with rescan, pick-directory, play-all and per-row play.
+- Recursively scans the music directory (depth fixed at 8 levels, not configurable in the UI), with rescan, pick-directory and per-row play; the list shows at most 20,000 entries.
 - Audio items are read as a **whole-file Blob** so duration and seeking are complete and reliable; **video** and files over 250MB still stream from `/media` to keep memory flat.
 - Playlists/items without artwork fall back to a **vinyl record icon** (also shown inline in each list row).
 
@@ -214,6 +264,7 @@ dsh-sidebar-media-player/
 ├── lib/index.js        # host: Range(206) media route / library scan / lyric+subtitle / QQ proxy
 ├── lib/client.js       # client: __ModuleLoader__ bundle (viewer + panel + capsule bar)
 ├── lib/qq.js           # QQ Music signing and parsing
+├── lib/qrc.js          # QR code rendering (QQ login scan)
 ├── docs/screenshots/   # real UI screenshots
 ├── screenshots.json    # marketplace screenshot list (plain array, relative paths)
 ├── locale/{zh,en}.json # marketplace title and description

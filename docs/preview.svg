@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="300" viewBox="0 0 640 300" role="img" aria-label="Sidebar media player: a capsule bar docked above the composer and a player panel with tabs and an artwork grid">
+  <defs>
+    <linearGradient id="surface" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b1d24"/>
+      <stop offset="1" stop-color="#15171d"/>
+    </linearGradient>
+    <linearGradient id="art" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2b2f3a"/>
+      <stop offset="1" stop-color="#20232b"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7C5CF5"/>
+      <stop offset="1" stop-color="#4C8DFF"/>
+    </linearGradient>
+    <linearGradient id="lyric" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7C5CF5"/>
+      <stop offset="0.5" stop-color="#4C8DFF"/>
+      <stop offset="1" stop-color="#37C9A0"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="640" height="300" rx="14" fill="url(#surface)"/>
+  <rect x="0.5" y="0.5" width="639" height="299" rx="14" fill="none" stroke="#2c3039"/>
+
+  <!-- close-up: capsule bar docked above the composer -->
+  <g>
+    <rect x="32" y="40" width="576" height="52" rx="26" fill="#22252d" stroke="#333844"/>
+    <circle cx="60" cy="66" r="14" fill="#111319" stroke="#4a4f5c"/>
+    <circle cx="60" cy="66" r="8.5" fill="none" stroke="#5a6070"/>
+    <circle cx="60" cy="66" r="2.4" fill="#7C5CF5"/>
+    <rect x="84" y="56" width="132" height="7" rx="3.5" fill="#9aa1b0"/>
+    <rect x="84" y="69" width="96" height="6" rx="3" fill="url(#lyric)" opacity="0.9"/>
+    <g stroke="#6f7686" stroke-width="2.2" stroke-linecap="round">
+      <path d="M300 60v12"/>
+      <path d="M300 60v12" transform="translate(7 0)"/>
+      <path d="M300 60v12" transform="translate(14 0)"/>
+      <path d="M300 60v6" transform="translate(21 0)"/>
+      <path d="M300 66v6" transform="translate(21 0)"/>
+      <path d="M300 63v9" transform="translate(28 0)"/>
+      <path d="M300 58v12" transform="translate(35 0)"/>
+      <path d="M300 63v9" transform="translate(42 0)"/>
+    </g>
+    <g fill="none" stroke="#b6bcc9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M372 62l-6 4 6 4"/>
+      <path d="M380 62l6 4-6 4"/>
+    </g>
+    <circle cx="410" cy="66" r="14" fill="url(#brand)"/>
+    <path d="M406 59.5v13l11-6.5z" fill="#ffffff"/>
+    <g fill="none" stroke="#b6bcc9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M444 62l6 4-6 4"/>
+      <path d="M452 62l6 4-6 4"/>
+    </g>
+    <rect x="470" y="58" width="14" height="16" rx="2.5" fill="#b6bcc9"/>
+    <g fill="none" stroke="#8b93a4" stroke-width="2" stroke-linecap="round">
+      <path d="M506 60l6 4-6 4"/>
+      <path d="M522 64v10M522 64c0-2 4-2 4 0v10"/>
+    </g>
+    <rect x="548" y="58" width="16" height="16" rx="4" fill="none" stroke="#b6bcc9" stroke-width="2"/>
+    <path d="M552 62h8M552 66h8M552 70h5" stroke="#b6bcc9" stroke-width="1.8" stroke-linecap="round"/>
+    <rect x="46" y="88" width="576" height="2" rx="1" fill="#3a3f4b"/>
+    <rect x="46" y="88" width="212" height="2" rx="1" fill="url(#brand)"/>
+    <circle cx="258" cy="89" r="4.5" fill="#ffffff"/>
+  </g>
+
+  <!-- main example: player panel -->
+  <g>
+    <rect x="32" y="112" width="576" height="156" rx="12" fill="#191c22" stroke="#2f343f"/>
+
+    <!-- tab row -->
+    <rect x="44" y="124" width="86" height="22" rx="11" fill="url(#brand)"/>
+    <rect x="140" y="124" width="86" height="22" rx="11" fill="#242832" stroke="#333844"/>
+    <rect x="470" y="124" width="22" height="22" rx="6" fill="#242832" stroke="#333844"/>
+    <rect x="500" y="124" width="22" height="22" rx="6" fill="#242832" stroke="#333844"/>
+    <rect x="530" y="124" width="22" height="22" rx="6" fill="#242832" stroke="#333844"/>
+    <rect x="560" y="124" width="36" height="22" rx="11" fill="#242832" stroke="#333844"/>
+
+    <!-- artwork grid -->
+    <g>
+      <g transform="translate(44 158)">
+        <rect width="66" height="52" rx="6" fill="url(#art)"/>
+        <circle cx="33" cy="26" r="15" fill="#101217" stroke="#4a4f5c"/>
+        <circle cx="33" cy="26" r="9" fill="none" stroke="#565d6c"/>
+        <circle cx="33" cy="26" r="2.6" fill="#7C5CF5"/>
+        <circle cx="57" cy="45" r="8" fill="url(#brand)"/>
+        <path d="M54.5 41.5v7l6-3.5z" fill="#fff"/>
+      </g>
+      <g transform="translate(120 158)">
+        <rect width="66" height="52" rx="6" fill="url(#art)"/>
+        <circle cx="33" cy="26" r="15" fill="#101217" stroke="#4a4f5c"/>
+        <circle cx="33" cy="26" r="9" fill="none" stroke="#565d6c"/>
+        <circle cx="33" cy="26" r="2.6" fill="#4C8DFF"/>
+        <rect x="4" y="4" width="20" height="10" rx="5" fill="#d9a441"/>
+      </g>
+      <g transform="translate(196 158)">
+        <rect width="66" height="52" rx="6" fill="url(#art)"/>
+        <circle cx="33" cy="26" r="15" fill="#101217" stroke="#4a4f5c"/>
+        <circle cx="33" cy="26" r="9" fill="none" stroke="#565d6c"/>
+        <circle cx="33" cy="26" r="2.6" fill="#37C9A0"/>
+      </g>
+      <g transform="translate(272 158)">
+        <rect width="66" height="52" rx="6" fill="url(#art)"/>
+        <circle cx="33" cy="26" r="15" fill="#101217" stroke="#4a4f5c"/>
+        <circle cx="33" cy="26" r="9" fill="none" stroke="#565d6c"/>
+        <circle cx="33" cy="26" r="2.6" fill="#e5534b"/>
+      </g>
+      <g transform="translate(348 158)">
+        <rect width="66" height="52" rx="6" fill="url(#art)"/>
+        <circle cx="33" cy="26" r="15" fill="#101217" stroke="#4a4f5c"/>
+        <circle cx="33" cy="26" r="9" fill="none" stroke="#565d6c"/>
+        <circle cx="33" cy="26" r="2.6" fill="#7C5CF5"/>
+      </g>
+      <g transform="translate(424 158)">
+        <rect width="66" height="52" rx="6" fill="url(#art)"/>
+        <circle cx="33" cy="26" r="15" fill="#101217" stroke="#4a4f5c"/>
+        <circle cx="33" cy="26" r="9" fill="none" stroke="#565d6c"/>
+        <circle cx="33" cy="26" r="2.6" fill="#4C8DFF"/>
+      </g>
+      <g transform="translate(500 158)">
+        <rect width="66" height="52" rx="6" fill="url(#art)"/>
+        <circle cx="33" cy="26" r="15" fill="#101217" stroke="#4a4f5c"/>
+        <circle cx="33" cy="26" r="9" fill="none" stroke="#565d6c"/>
+        <circle cx="33" cy="26" r="2.6" fill="#37C9A0"/>
+      </g>
+      <g transform="translate(44 218)">
+        <rect width="66" height="40" rx="6" fill="url(#art)"/>
+        <circle cx="33" cy="20" r="11" fill="#101217" stroke="#4a4f5c"/>
+        <circle cx="33" cy="20" r="6.5" fill="none" stroke="#565d6c"/>
+      </g>
+      <g transform="translate(120 218)">
+        <rect width="66" height="40" rx="6" fill="url(#art)"/>
+        <circle cx="33" cy="20" r="11" fill="#101217" stroke="#4a4f5c"/>
+        <circle cx="33" cy="20" r="6.5" fill="none" stroke="#565d6c"/>
+      </g>
+      <g transform="translate(196 218)">
+        <rect width="66" height="40" rx="6" fill="url(#art)"/>
+        <circle cx="33" cy="20" r="11" fill="#101217" stroke="#4a4f5c"/>
+        <circle cx="33" cy="20" r="6.5" fill="none" stroke="#565d6c"/>
+      </g>
+      <g transform="translate(272 218)">
+        <rect width="66" height="40" rx="6" fill="url(#art)"/>
+        <circle cx="33" cy="20" r="11" fill="#101217" stroke="#4a4f5c"/>
+        <circle cx="33" cy="20" r="6.5" fill="none" stroke="#565d6c"/>
+      </g>
+      <g transform="translate(348 218)">
+        <rect width="66" height="40" rx="6" fill="url(#art)"/>
+        <circle cx="33" cy="20" r="11" fill="#101217" stroke="#4a4f5c"/>
+        <circle cx="33" cy="20" r="6.5" fill="none" stroke="#565d6c"/>
+      </g>
+      <g transform="translate(424 218)">
+        <rect width="66" height="40" rx="6" fill="url(#art)"/>
+        <circle cx="33" cy="20" r="11" fill="#101217" stroke="#4a4f5c"/>
+        <circle cx="33" cy="20" r="6.5" fill="none" stroke="#565d6c"/>
+      </g>
+      <g transform="translate(500 218)">
+        <rect width="66" height="40" rx="6" fill="url(#art)"/>
+        <circle cx="33" cy="20" r="11" fill="#101217" stroke="#4a4f5c"/>
+        <circle cx="33" cy="20" r="6.5" fill="none" stroke="#565d6c"/>
+      </g>
+    </g>
+  </g>
+</svg>
