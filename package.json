@@ -1,7 +1,7 @@
 {
   "name": "dsh-sidebar-media-player",
-  "version": "0.2.5",
-  "description": "Unified audio + video player for dsh-better-sidebar: one file viewer for mp4/webm/mov/m4v/ogv and mp3/wav/flac/ogg/opus/m4a/aac, with a draggable whole-track scrubber, live spectrum bars and pitch (Hz + note name), streamed from a Range(206) host route so seeking really works. Note: the current 0.2.x build still has a number of known bugs and is being reworked.",
+  "version": "0.2.6",
+  "description": "Unified audio + video player for dsh-better-sidebar: a sidebar viewer for mp4/webm/mov/m4v/ogv and mp3/wav/flac/ogg/opus/m4a/aac with a draggable Range(206) scrubber, live spectrum and pitch, plus a player panel (QQ Music online library with favourites synced to the account, local music library), subtitles, lyrics with 5 effects, and a capsule bar that can dock above the input box, sit at the bottom, or be hidden.",
   "type": "module",
   "main": "lib/index.js",
   "files": [
