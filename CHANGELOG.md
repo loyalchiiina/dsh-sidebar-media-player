@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.7 (2026-11-18) — 效果图更新 + 官方规范合规修订
+
+- **效果图更新**：README 中英双版截图段与 `screenshots.json` 换成新的三张实机图（侧边栏播放器面板整体界面 / 胶囊播放条落在输入框上方 / 面板另一状态）；过时旧图（视频字幕面板、音频歌词频谱）已移除。
+- **市场条目**：首次提交到 awesome-dsh-plugin 市场（`data/plugins/loyalchiiina__dsh-sidebar-media-player.yml`），描述与本 README 的功能口径逐条对齐。
+- **安装口径**：README 安装段改为官方方式（插件市场 / 宿主 `plugin_manager` 的 `install_bundle`）；桌面端 `desktop` profile 由 Electron 独占，保留手动挂载流程并明确标注为绕行方案。
+- **资源可清理**（官方规范）：客户端注入的两处 `<style>`（唱盘样式、歌词动效样式）登记到全局表，并在 `ctx.effect` disposer 里移除；同页音频仲裁的 800ms 轮询定时器补停止入口，停用 / HMR 时不再泄漏。
+- **诊断路由默认关闭**：宿主 `/dsh-sidebar-media-player/diag` 写盘路由改为需环境变量 `DSH_SMP_DIAG=1` 才开启，发布包不再留常开的写盘后门。
+- **manifest**：`dsh.client.immediately` 补齐（对齐官方模板）。
+- 版本：`package.json` 与 `lib/client.js` 的 `VERSION` 同步到 0.2.7。
+
 ## 0.2.6 (2026-11-18) — 多轮返修收口 + 默认外观定稿
 
 > 更正：0.2.5 条目里写的「修正 lib/client.js 的 VERSION」当版并未真正落地（0.2.5 包里仍是 0.2.0），实际在 0.2.6 完成。历史条目不回改。

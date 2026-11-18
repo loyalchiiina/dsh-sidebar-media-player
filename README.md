@@ -2,11 +2,11 @@
 
 侧边栏统一音视频播放器，作为 `dsh-better-sidebar` 的配套插件：一个 viewer 同时接管视频与音频预览，并提供独立的**播放器面板**（QQ 音乐在线曲库 + 本地音乐库）、一条可三态摆放的**胶囊播放条**，以及实时频谱 / 音准 / 歌词 / 字幕等播放态增强。
 
-**适配 DSH 内核 0.2.2-rc.1；当前版本 0.2.6。**
+**适配 DSH 内核 0.2.2-rc.1；当前版本 0.2.7。**
 
 > 0.2.6 起，此前记录的已知缺陷（进度条拖不动、切歌/收藏/倍速失效、歌词动效不生效、胶囊位置切换后消失等）已逐项修复；发布前对默认值、源码改动与打包清单做过机器断言核验（校验脚本随源码改动在开发环境执行，未纳入发布包）。仍建议先小范围试用再依赖。
 
-- 版本：0.2.6
+- 版本：0.2.7
 - 依赖：`dsh-better-sidebar`（提供 `ctx.betterSidebar` 文件查看器注册服务；缺失时插件自动降级，不影响 DSH 启动）
 
 ## 免责申明（请先读）
@@ -86,11 +86,9 @@
 
 ## 安装
 
-```bash
-dsh plugin add dsh-sidebar-media-player
-```
+**官方安装方式**：DSH 设置页的「插件市场」直接安装，或由宿主通过 `plugin_manager` 的 `install_bundle` 安装（target 填本插件目录，或填 npm 包名 `dsh-sidebar-media-player`）。安装与 bundle 选择一律走这条官方通道，不要用 shell / CLI 复刻安装步骤。
 
-> 桌面端 `desktop` profile 由 Electron 独占管理（`dsh plugin --profile desktop add` 会被 CLI 直接拒绝），需走「真实副本 + 只加 bundles」的方式手动挂载：
+> **桌面端绕行说明（宿主限制下的 workaround）**：桌面端 `desktop` profile 由 Electron 独占管理，CLI 通道对 `desktop` profile 不可用（`dsh plugin --profile desktop add` 会被 CLI 直接拒绝）。因此在桌面端需要「真实副本 + 只加 bundles」的手动挂载：
 >
 > 1. 备份 `~/.dsh/profiles/desktop/package.json` 与 `cordis.patch.yml`；
 > 2. 把插件真实副本放到 `local-plugins/` 下并加入 profile 的 `dependencies` 与 `dsh.profile.bundles`；
@@ -106,9 +104,11 @@ dsh plugin add dsh-sidebar-media-player
 
 ## 截图
 
-![视频 + 字幕（字幕设置面板）](docs/screenshots/01-video-subtitle.png)
+![侧边栏播放器面板：唱盘 + 音准 + 歌词 + 频谱 + 控件行 + QQ 音乐封面网格](docs/screenshots/01-panel-qq.png)
 
-![音频 + 歌词 + 频谱 + 音准](docs/screenshots/02-audio-lyric.png)
+![胶囊播放条（默认落在输入框上方）](docs/screenshots/02-capsule-bar.png)
+
+![侧边栏播放器面板（另一状态：音准 C2 66.2 Hz）](docs/screenshots/03-panel-qq-alt.png)
 
 ## 已知限制
 
@@ -146,11 +146,11 @@ dsh-sidebar-media-player/
 
 A unified audio + video player for `dsh-better-sidebar`. One viewer takes over audio/video preview, and the plugin adds its own **player panel** (QQ Music online library + local library) and a **capsule bar** that can sit in three places, plus live spectrum, pitch readout, lyrics and subtitles.
 
-**Adapts the DSH kernel 0.2.2-rc.1; current version 0.2.6.**
+**Adapts the DSH kernel 0.2.2-rc.1; current version 0.2.7.**
 
 > Since 0.2.6, the previously documented defects (undroppable scrubber, dead next/favourite/rate controls, lyrics effects not applying, capsule disappearing after changing position) have been fixed one by one. Defaults, source changes and the packed file list were checked with machine assertions during development; those check scripts live in the development environment and are not shipped in this package. Trying it on a small scale first is still recommended.
 
-- Version: 0.2.6
+- Version: 0.2.7
 - Requires: `dsh-better-sidebar` (provides the `ctx.betterSidebar` viewer registration service; when absent the plugin degrades gracefully and never blocks DSH startup)
 
 ## Disclaimer (please read first)
@@ -228,11 +228,9 @@ Upgrading to 0.2.6 runs a **one-time migration** (localStorage marker `smp.appea
 
 ## Install
 
-```bash
-dsh plugin add dsh-sidebar-media-player
-```
+**Official way**: install it from the plugin market in the DSH settings page, or have the host install it through `plugin_manager`'s `install_bundle` (target = this plugin directory, or the npm package name `dsh-sidebar-media-player`). Package installation and bundle selection always go through this official channel — do not reproduce those steps with shell commands.
 
-> On desktop the `desktop` profile is managed exclusively by Electron (`dsh plugin --profile desktop add` is rejected by the CLI), so mount it manually: back up `~/.dsh/profiles/desktop/package.json` and `cordis.patch.yml`, place a real copy under `local-plugins/`, wire it into `dependencies` and `dsh.profile.bundles`, then **fully quit and relaunch DSH** (the host is a Node process with no hot reload).
+> **Desktop workaround (Electron-managed desktop profile)**: on desktop the `desktop` profile is managed exclusively by Electron and the CLI channel is not available for it (`dsh plugin --profile desktop add` is rejected by the CLI). So on desktop, mount it manually with a real copy plus bundles only: back up `~/.dsh/profiles/desktop/package.json` and `cordis.patch.yml`, place a real copy under `local-plugins/`, wire it into `dependencies` and `dsh.profile.bundles`, then **fully quit and relaunch DSH** (the host is a Node process with no hot reload).
 
 ## How changes take effect
 
@@ -244,9 +242,11 @@ dsh plugin add dsh-sidebar-media-player
 
 ## Screenshots
 
-![Video + subtitles (subtitle settings panel)](docs/screenshots/01-video-subtitle.png)
+![The sidebar player panel: turntable, pitch readout, lyrics, spectrum, control row and the QQ Music artwork grid](docs/screenshots/01-panel-qq.png)
 
-![Audio + lyrics + spectrum + pitch](docs/screenshots/02-audio-lyric.png)
+![The capsule bar, docked above the input box by default](docs/screenshots/02-capsule-bar.png)
+
+![The sidebar player panel in another state (pitch readout C2 66.2 Hz)](docs/screenshots/03-panel-qq-alt.png)
 
 ## Known limitations
 
