@@ -104,11 +104,11 @@
 
 ## 截图
 
-![侧边栏播放器面板：唱盘 + 音准 + 歌词 + 频谱 + 控件行 + QQ 音乐封面网格](docs/screenshots/01-panel-qq.png)
+![侧边栏播放器面板：唱盘 + 逐行歌词 + 频谱 + 控件行 + QQ 音乐歌单（深色主题）](docs/screenshots/01-panel-playlist-dark.jpg)
 
-![胶囊播放条（默认落在输入框上方）](docs/screenshots/02-capsule-bar.png)
+![贴底胶囊播放条：歌词在剩余空白区居中，点歌名弹出面板（深色主题）](docs/screenshots/02-capsule-popup-dark.jpg)
 
-![侧边栏播放器面板（另一状态：音准 C2 66.2 Hz）](docs/screenshots/03-panel-qq-alt.png)
+![贴底胶囊播放条与任务面板同屏：条宽实时跟随输入框宽度（深色主题）](docs/screenshots/03-capsule-task-dark.jpg)
 
 ## 已知限制
 
@@ -244,11 +244,11 @@ Upgrading to 0.2.6 runs a **one-time migration** (localStorage marker `smp.appea
 
 ## Screenshots
 
-![The sidebar player panel: turntable, pitch readout, lyrics, spectrum, control row and the QQ Music artwork grid](docs/screenshots/01-panel-qq.png)
+![The sidebar player panel: turntable, synced lyrics, spectrum, control row and the QQ Music playlist (dark theme)](docs/screenshots/01-panel-playlist-dark.jpg)
 
-![The capsule bar, docked above the input box by default](docs/screenshots/02-capsule-bar.png)
+![The bottom capsule bar: lyric centered in the leftover space, click the song title to open the panel (dark theme)](docs/screenshots/02-capsule-popup-dark.jpg)
 
-![The sidebar player panel in another state (pitch readout C2 66.2 Hz)](docs/screenshots/03-panel-qq-alt.png)
+![The bottom capsule bar beside the task panel: bar width tracks the composer width live (dark theme)](docs/screenshots/03-capsule-task-dark.jpg)
 
 ## Known limitations
 
