@@ -1,5 +1,85 @@
 # Changelog
 
+## 0.2.18 (2026-11-20) — 修「贴底条 rect 全对但肉眼整条空白」：z-index 对 static 无效
+
+- **根因**：`.dsh-music-bar-wrap.bottom` 写的是 `position: static; z-index: 900` —— CSS 里 z-index 只对非 static 元素生效，所以贴底条一直以 `z-index: auto` 参与绘制，被宿主 `[data-composer-seat]` / shell 那层正值层级整片盖住。表现就是最迷惑人的那一组证据：`[smp-layout]` 日志里 `card=[520,623,712,98]`、`bar=[520,749,712,46]`、`cardVar=712px`，**卡宽=条宽完全对齐**，肉眼却什么都没有。
+- 改法：外壳 `position: relative`（`height: 0` 仍不吃布局）让 `z-index: 900` 真正生效，条本体再自带 `z-index: 900`，在 wrap 的层叠上下文里压住宿主内容。
+- 宽度仍然**不是固定值**：条本体 `left: var(--smp-card-x)` + `width: var(--smp-card-w)`，两个变量由每 500ms + ResizeObserver 重读的输入框卡片 rect 写入，输入框拖宽即跟随。
+- 诊断再加三组硬证据：`hit`（条中心点 `elementsFromPoint` 前 5 层，带 rect/class/z-index/position，命中自己会标 `<== 条自己`）、`barZ`（条自己的 zIndex/position/visibility/opacity/backgroundColor）、`inView` / `clientH` / `wrapZ` / `barTextLen` / `cardXVar`。以后「看不见」直接看 hit 第一行是谁。
+
+26-11-20) — 修「贴底条 rect 全对但肉眼整条空白」：z-index 对 static 无效
+
+- **根因**：`.dsh-music-bar-wrap.bottom` 写的是 `position: static; z-index: 900` —— CSS 里 z-index 只对非 static 元素生效，所以贴底条一直以 `z-index: auto` 参与绘制，被宿主 `[data-composer-seat]` / shell 那层正值层级整片盖住。表现就是最迷惑人的那一组证据：`[smp-layout]` 日志里 `card=[520,623,712,98]`、`bar=[520,749,712,46]`、`cardVar=712px`，**卡宽=条宽完全对齐**，肉眼却什么都没有。
+- 改法：外壳 `position: relative`（`height: 0` 仍不吃布局）让 `z-index: 900` 真正生效，条本体再自带 `z-index: 900`，在 wrap 的层叠上下文里压住宿主内容。
+- 宽度仍然**不是固定值**：条本体 `left: var(--smp-card-x)` + `width: var(--smp-card-w)`，两个变量由每 500ms + ResizeObserver 重读的输入框卡片 rect 写入，输入框拖宽即跟随。
+- 诊断再加三组硬证据：`hit`（条中心点 `elementsFromPoint` 前 5 层，带 rect/class/z-index/position，命中自己会标 `<== 条自己`）、`barZ`（条自己的 zIndex/position/visibility/opacity/backgroundColor）、`inView` / `clientH` / `wrapZ` / `barTextLen` / `cardXVar`。以后「看不见」直接看 hit 第一行是谁。
+
+## 0.2.17 (2026-11-20) — 修「底部整条空白」+ 布局数字持续上报
+
+- **修 0.2.15/0.2.16 引入的空白 bug**：上一版把 `.dsh-music-bar-wrap.bottom` 设成 `width: 0; height: 0`，而条本体靠 `width: var(--smp-card-w, 100%)` —— 卡片 rect 没读到的那一帧 `--smp-card-w` 缺失 → `100%` 相对 0 宽的壳 = **0 像素，整条看不见**。现在壳保持满宽（`width: 100%; height: 0`，绝对不占位），条宽兜底改成 `calc(100vw - 2 * var(--dsh-composer-side-clearance, 16px))`，只有读不到视口时才会是 0。
+- 卡片查找加兜底：主选择器 `[data-composer-card]` 找不到时，扫 `[data-composer-seat]` 子树里「宽度 ≥ 座位宽 90%、面积最大」的元素，两条路都失败才留空。
+- 诊断从「启动 2 秒打一次」改为**每 5 秒持续打一行** `[smp-layout] {...}`：模式、视口/clientWidth、wrap 壳 rect、所在槽 rect 及类名、`[data-composer-card]` rect 及类名、`[data-composer-seat]` rect 及类名、条本体 rect 与 computed width/maxWidth、`--dsh-composer-card-max-width` 实际取值、我们写入的 `--smp-card-w` / `--smp-card-x`。DSH 桌面端会把 renderer console 转发进 `~/.dsh/logs/desktop-next.log`，读日志即可核验，不必截图。
+- 宽度不是固定值：所有数字都来自每 500ms + ResizeObserver + resize 重读的输入框卡片 rect，拖动输入框即跟随。
+- 版本：`package.json` 与 `lib/client.js` 同步到 0.2.17，`SMP_BUILD` 2026-11-20 13:58。
+## 0.2.16 (2026-11-20) — 布局实测数字上报到 DSH 日志（[smp-layout]）
+
+- 每 5 秒往 renderer console 打一行 `[smp-layout] {...}`，内容包括：模式（bottom/dock）、视口宽高、wrap 壳的 rect 与所在槽（slot）的 rect 及其类名、**输入框卡片 `[data-composer-card]` 的 rect 与类名**、条本体 rect、条的 computed `max-width`、`--dsh-composer-card-max-width` 的实际取值、以及我们写入的 `--smp-card-w`。
+- DSH 桌面端会把 renderer console 全量转发进 `~/.dsh/logs/desktop-next.log`（日志中 `[renderer] console` 行即证），所以这些数字作者可以直接读日志核对，**不需要用户再截图、也不需要互相猜「是不是没生效」**。
+- 这一版不改布局逻辑（0.2.15 的 `[data-composer-card]` 锚点保持不变），只是把判据交出来。
+- 版本：`package.json` 与 `lib/client.js` 的 `VERSION` 同步到 0.2.16，`SMP_BUILD` 更新为 2026-11-20 13:52。
+## 0.2.15 (2026-11-20) — 宽度锚点改用 DSH 自己的输入框卡片 [data-composer-card]
+
+- **实测证据（用户截图，条上自报数字）**：`v0.2.14 · 780/1478` —— 条宽 780、所在槽宽 1478。780 正是 `max-width: var(--dsh-composer-card-max-width, 780px)` 的**兜底值**：该变量定义在 composer 卡片自己的祖先链上，我们的条挂在 `conversation.input.dock` 槽里，读不到它 → 每次都退化成 780px 居中。前四版（0.2.9 座位宽 / 0.2.10 子树最宽 / 0.2.11 写死变量 / 0.2.12 槽宽）全部错在同一处：**拿的不是输入框那条边**。
+- 锚点换成宿主自己的输入框卡片：`[data-composer-card]`（DSH 源码 `dsh-client-ui-conversation/lib/client.js:22018` 里 `"data-composer-card": true`）。每 500ms + ResizeObserver + resize 读它的真实 rect，写进 `--smp-card-x` / `--smp-card-w`。
+- 贴底条改为 `position: fixed; left: var(--smp-card-x); width: var(--smp-card-w); max-width: none`，直接落到卡片同一组坐标上 → 左右边界逐像素重合，拖动输入框宽度自动跟随；外壳 wrap 去掉 `transform`（有 transform 的祖先会让子元素 fixed 相对它定位）并不再占位。
+- 基础 `.dsh-music-bar` 的 `max-width` 去掉 780px 兜底，改 `var(--smp-card-w, none)`，顶部模式同样受益。
+- 版本戳改成 `v0.2.15 · 条1326/卡1326/槽1478`，三个宽度同时在线，一眼看出是哪一层没对齐。
+- 版本：`package.json` 与 `lib/client.js` 的 `VERSION` 同步到 0.2.15，`SMP_BUILD` 更新为 2026-11-20 13:40。
+## 0.2.14 (2026-11-20) — 版本戳实时显示「条宽/槽宽」，把测量值交出来
+
+- 条右侧的版本戳不再只写版本号，而是 **`v0.2.14 · 613/645`**（条宽 / 所在槽宽，实测值，每 500ms 刷新一次）。鼠标悬停还能看到 `seat宽`（`[data-composer-seat]` 的宽度）、`视口宽`、以及槽元素的 `tag#id.class`。
+- 目的：前几轮一直在「是不是没刷新 / 改的是不是那份文件 / 宽度是不是没取对」之间打转，缺的是现场数字。现在顶部模式（用户认可的、对齐正确的那一态）和底部模式各自把实测宽度印在条上，两张截图一对比就能确定差异出在哪一层容器。
+- 版本：`package.json` 与 `lib/client.js` 的 `VERSION` 同步到 0.2.14，`SMP_BUILD` 更新为 2026-11-20 13:15。
+## 0.2.13 (2026-11-20) — 底部条删除全部宽度声明；加可见版本戳
+
+- **「你参考胶囊处于上部时候的代码」**：这次把 `.dsh-music-bar-wrap.bottom` 里**所有**与宽度有关的声明删干净了（`box-sizing` / `width` / `padding` 三条全部移除）。贴底模式现在只剩四个属性：`position: relative`、`height/margin-bottom`（互相抵消，不占位）、`transform: translateY(--smp-shift)`、`pointer-events: none`。宽度、左右内缩、`max-width`、居中全部 100% 来自与顶部共用的那两条 base 规则（`.dsh-music-bar-wrap` 与 `.dsh-music-bar`），底部没有第二条宽度规则可执行。
+- **加可见版本戳 `v0.2.13`**（条最右侧、9px 半透明小字，hover 显示 `SMP 0.2.13 · 2026-11-20 13:05`）：此前多轮「改了但看起来没变」无法区分是代码没生效还是浏览器没刷新，现在截图即可定版。
+- 版本：`package.json` 与 `lib/client.js` 的 `VERSION` 同步到 0.2.13，`SMP_BUILD` 更新为 2026-11-20 13:05。
+## 0.2.12 (2026-11-20) — 贴底条 = 顶部条平移，宽度零差异（采用用户方案）
+
+- **「你直接把顶部胶囊的代码挪动坐标和底部一样高不就行了」**——按这个思路重做。0.2.9/0.2.10/0.2.11 三次都在「另造一套宽度」：换测量源、换 CSS 变量、换定位基准，结果始终差一截。0.2.12 不再造第二套：贴底模式下 wrap **仍在 composer 槽内**、宽度仍是 `100%`、内层 `.dsh-music-bar` 仍是 `width:100% + max-width + margin:auto`（与顶部逐字符相同的那几条规则），唯一的变化是整块 `transform: translateY(var(--smp-shift))` 平移到窗口底边。宽度由 composer 槽决定 → 输入框拖宽自动跟随、与顶部同宽同边。
+- `--smp-shift` 由组件 effect 计算：`视口底 − wrap 自然底边`（用「读回上次写下的变量值」反推自然底边，平移生效后不会累积漂移），轮询 500ms + resize 跟随，统计栏/输入框高度变化时自动重新贴底。
+- `height: 46px` + `margin-bottom: -46px` 成对抵消：贴底模式不会在输入框上方多留一块空白。
+- 版本：`package.json` 与 `lib/client.js` 的 `VERSION` 同步到 0.2.12，`SMP_BUILD` 更新为 2026-11-20 12:45。
+
+## 0.2.11 (2026-11-20) — 贴底条与上方条同源同宽（宽度不再靠猜）
+
+- **「页面底部」胶囊宽度仍然不等于输入框**（用户第五次反馈，原话：「输入框的宽度是可以拖动的，你参考输入框顶部时候胶囊的代码不行吗，只不过他们两者的上下位置不一样」）。0.2.9/0.2.10 两次都在换着法儿「量出一个宽度」（座位 1014 / 卡片 1326 / 子树最宽者），结果不是窄 312px 就是随窗口抖动。这次改成**单一宽度来源**：条自身 `position: fixed; left:0; right:0; bottom:0; margin:0 auto; width: var(--smp-bar-w)`，`--smp-bar-w` 由 `useColumnMetrics` 测到的输入框卡片宽写入；外壳 `.dsh-music-bar-wrap.bottom` 只负责层级与点击穿透，不再参与宽度。输入框可以拖动调宽 → 每 1 秒重测一次自动跟随，纵向位置仍贴窗口底（与「输入框上方」只差上下位置，宽度域左右边界齐平）。
+- 兜底：测量尚未就绪的首帧退化为 `width:100%`，另加 `max-width: calc(100% - clearance*2)` 保证任何窗口宽度下都不溢出。
+- 版本：`package.json` 与 `lib/client.js` 的 `VERSION` 同步到 0.2.11，`SMP_BUILD` 更新为 2026-11-20 10:48。
+
+## 0.2.10 (2026-11-20) — 底部宽度与上方逐像素一致 + 人名零遮挡
+
+- **「页面底部」胶囊仍然比「输入框上方」短一截**（用户第四次反馈）：0.2.9 改用 `[data-composer-seat]` 实测值当内联 `left/width`，但该座位实测就是 1014px（= 会话列），真正的输入框卡片是 1326px 且**溢出座位**，钉死实测值只会继续窄 312px。现在贴底模式**不再写任何内联 left/width**，交给 CSS：`.dsh-music-bar-wrap.bottom` 为 `left:0; right:0`，内层 `.dsh-music-bar` 沿用与上方条完全相同的 `width:100%; max-width: var(--dsh-composer-card-max-width); margin:0 auto`。两条走同一套约束 → 逐像素同宽，输入框宽度一变自动跟随。
+- **歌名/歌手被署名挤掉、看不见**（用户：「歌词名称怎么被挡住了」）：`.dsh-music-bar-name` 这一个 span 里塞了音符 + 歌名 + 歌手 + 各类徽标 + 章节 + 署名，而它带 `max-width:30%` + `overflow:hidden`。署名一变完整就把歌名推出可视区。现在歌名、歌手、徽标、章节、署名全部升为 `.dsh-music-bar` 的同级 flex 项，各自完整显示；名称容器去掉 overflow/ellipsis（超长歌名由内层 `.name-text` 收）。
+- **歌手名不再被省略号截断**：`.dsh-music-bar-artist` 去掉 `overflow:hidden` + `text-overflow:ellipsis`，改 `flex: 0 0 auto` 按内容全宽；作词 / 作曲 / 编曲一项不少、一个人名都不省。
+- **歌词紧跟署名之后**：`.dsh-music-bar-lyric` 由居中改为左对齐（频谱仍紧接署名，歌词紧随频谱），不再把文字推到条形中间。
+- 版本：`package.json` 与 `lib/client.js` 的 `VERSION` 同步到 0.2.10，`SMP_BUILD` 更新为 2026-11-20 10:35。
+
+## 0.2.9 (2026-11-20) — 底部胶囊宽度对齐 + 署名完整显示
+
+- **「页面底部」胶囊比「输入框上方」短一截**（用户连说三遍的问题）：贴底条的 `left/width` 取自 `[data-composer-seat].parentElement`（会话列，实测 1014px），而上方条跟着输入框卡片走（实测 1324px），两者差 300 多像素。现在 `useColumnMetrics` 直接量「输入框底座」`[data-composer-seat]` 自身，并在该来源下把外壳左右 padding 归零（外框宽已等于输入框宽，再叠 32px 内缩就又窄了）；CSS 侧给 `.dsh-music-bar-wrap.bottom` 补 `right: 0`，即使测量缺失也不会退化成「内容撑开的窄条」。
+- **署名行只显示到「编曲 臧…」**（用户：「要把人的名称显示完整不要出现 。。。」）：`.dsh-music-bar-credits` 旧版 `max-width: 190px` + `text-overflow: ellipsis` 必然截断。现在改为按内容全宽、不收缩不裁切（`flex: 0 0 auto`、`white-space: nowrap`），空间由歌名（上限 36%→30%）与歌手名（120px→96px）让出；作词 / 作曲 / 编曲三项均由歌词首部 credit 行解析，齐全时整行完整显示。
+- 版本：`package.json` 与 `lib/client.js` 的 `VERSION` 同步到 0.2.9，`SMP_BUILD` 更新为 2026-11-20 10:22。
+
+## 0.2.8 (2026-11-20) — 播放链路三处修复 + 停止改为暂停保留位置
+
+- **面板/胶囊播完不自动下一首**（用户实测：不管哪种播放模式都停住不动）：面板模式组件既不绑 `<audio>` 事件、也不注册控制面，`SMP_STORE` 的 `ended` 旧版只把 `playing` 置 false，播完无人推进。现在 `ended` 在无组件接管（`ctl === null`）时按 `loopMode` 三态自行推进（单曲重播 / 随机下一首 / 顺序播到末尾停）；组件在树里时仍由组件 `onEnded` 处理，避免双触发跳两首。
+- **QQ 曲点歌后播放失败、点播放没声音、误报「格式不支持或文件不可读」**：面板 body 的换源 effect 旧版没有面板模式早退，会用 `mediaUrl(scope, snap.path)`（QQ 曲的 `path` 是中文歌名 → 404）覆盖掉 store 刚设好的 `/qq/play/<mid>` 代理流。现在面板模式不再改源（store 是唯一权威）；错误监听也以 store 状态判定是否 QQ 曲，不再把它误报成本地文件格式问题。
+- **胶囊迷你频谱上方的浅白糊块**（用户：「第二张图的背面有白色的东西」）：`drawSpectrum` 空闲态的「待播放」文案在 60×20 的小画布上放不下，被裁到画布顶端糊成一排浅灰白块。现在只在 ≥120×44 的画布上绘制该文案，小画布只留玻璃底与能量基线。
+- **停止按钮改为暂停并保留位置**（用户：「点击这个暂停按钮歌曲会重头播放，要接着播」）：`SMP_STORE.stop()` 不再把 `currentTime` 归零，改为暂停并把当前位置写回快照，再点播放即续播；胶囊条与侧边栏面板该按钮 `title` 由「停止」改为「暂停」。
+- 版本：`package.json` 与 `lib/client.js` 的 `VERSION` 同步到 0.2.8，`SMP_BUILD` 更新为 2026-11-20 10:12。
+
 ## 0.2.7 (2026-11-18) — 效果图更新 + 官方规范合规修订
 
 - **效果图更新**：README 中英双版截图段与 `screenshots.json` 换成新的三张实机图（侧边栏播放器面板整体界面 / 胶囊播放条落在输入框上方 / 面板另一状态）；过时旧图（视频字幕面板、音频歌词频谱）已移除。

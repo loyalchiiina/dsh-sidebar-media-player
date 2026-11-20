@@ -2,11 +2,11 @@
 
 侧边栏统一音视频播放器，作为 `dsh-better-sidebar` 的配套插件：一个 viewer 同时接管视频与音频预览，并提供独立的**播放器面板**（QQ 音乐在线曲库 + 本地音乐库）、一条可三态摆放的**胶囊播放条**，以及实时频谱 / 音准 / 歌词 / 字幕等播放态增强。
 
-**适配 DSH 内核 0.2.2-rc.1；当前版本 0.2.7。**
+**适配 DSH 内核 0.2.2-rc.1；当前版本 0.2.17。**
 
 > 0.2.6 起，此前记录的已知缺陷（进度条拖不动、切歌/收藏/倍速失效、歌词动效不生效、胶囊位置切换后消失等）已逐项修复；发布前对默认值、源码改动与打包清单做过机器断言核验（校验脚本随源码改动在开发环境执行，未纳入发布包）。仍建议先小范围试用再依赖。
 
-- 版本：0.2.7
+- 版本：0.2.17
 - 依赖：`dsh-better-sidebar`（提供 `ctx.betterSidebar` 文件查看器注册服务；缺失时插件自动降级，不影响 DSH 启动）
 
 ## 免责申明（请先读）
@@ -148,11 +148,11 @@ dsh-sidebar-media-player/
 
 A unified audio + video player for `dsh-better-sidebar`. One viewer takes over audio/video preview, and the plugin adds its own **player panel** (QQ Music online library + local library) and a **capsule bar** that can sit in three places, plus live spectrum, pitch readout, lyrics and subtitles.
 
-**Adapts the DSH kernel 0.2.2-rc.1; current version 0.2.7.**
+**Adapts the DSH kernel 0.2.2-rc.1; current version 0.2.17.**
 
 > Since 0.2.6, the previously documented defects (undroppable scrubber, dead next/favourite/rate controls, lyrics effects not applying, capsule disappearing after changing position) have been fixed one by one. Defaults, source changes and the packed file list were checked with machine assertions during development; those check scripts live in the development environment and are not shipped in this package. Trying it on a small scale first is still recommended.
 
-- Version: 0.2.7
+- Version: 0.2.17
 - Requires: `dsh-better-sidebar` (provides the `ctx.betterSidebar` viewer registration service; when absent the plugin degrades gracefully and never blocks DSH startup)
 
 ## Disclaimer (please read first)
