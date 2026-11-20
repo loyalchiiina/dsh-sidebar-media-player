@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.19 (2026-11-20) — 清掉条上调试数字与临时诊断（功能不变）
+
+- 用户验收：「现在宽度是一样的，也可以拉着动，修好了」→ 去掉条上那行 `v0.2.18 · 条977/卡977/槽1478` 调试数字，只保留 9px 淡版本号徽章（原有设计）。
+- 同时整段删除这两轮加的临时诊断：`[smp-layout]` 的 JSON 日志块（含 `hit`/`anc`/`barZ` 等重字段）与 `[smp-diag]` 一次性 effect —— 它们只在排障期有用，留着会每 5 秒污染 renderer console。
+- 说明：布局机制一字未动 —— 外壳仍 `position: relative; z-index: 900; height: 0`，条本体仍 `position: fixed; left: var(--smp-card-x); width: var(--smp-card-w)`，变量仍由 findCard() 每 500ms + ResizeObserver 从输入框卡片 rect 写入（宽度仍是变量、不是固定值）。
+
 ## 0.2.18 (2026-11-20) — 修「贴底条 rect 全对但肉眼整条空白」：z-index 对 static 无效
 
 - **根因**：`.dsh-music-bar-wrap.bottom` 写的是 `position: static; z-index: 900` —— CSS 里 z-index 只对非 static 元素生效，所以贴底条一直以 `z-index: auto` 参与绘制，被宿主 `[data-composer-seat]` / shell 那层正值层级整片盖住。表现就是最迷惑人的那一组证据：`[smp-layout]` 日志里 `card=[520,623,712,98]`、`bar=[520,749,712,46]`、`cardVar=712px`，**卡宽=条宽完全对齐**，肉眼却什么都没有。
