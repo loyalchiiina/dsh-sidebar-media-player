@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.21 (2026-11-20) — 歌词在剩余空白区居中
+
+- 用户要求：胶囊条左侧的歌词/「无歌词」文字不再贴左，要在**剩余空白区域的中间**显示；悬停展开播放按钮时也随剩余空间自动居中、按钮移开后回正。
+- 实现：.dsh-music-bar-lyric 由 	ext-align:left 改为 display:flex; align-items:center; justify-content:safe center（Chromium 支持 safe：歌词放不下时自动回退起点对齐，只从右端裁、开头永远可见）。
+
 ## 0.2.20 (2026-11-20) — 胶囊条不再显示版本号
 
 - 用户要求：条上连 `v0.2.20` 小字也不要。删掉 `dsh-music-bar-ver` 那颗 span 与对应 CSS 规则，胶囊条上不再出现任何版本字样。
