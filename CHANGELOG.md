@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.23 (2026-11-21) — 面板布局重排：唱片放大 / 音准贴底 / 时间挪到控件行下 / 删下载 / 窄宽不裁按钮
+
+- 用户要求（带 5 张截图）：① 唱片机加大，让音准标记正好挨到底侧；② 播放时间格式照图（`0:07 / 4:29`）但挪到控件行**下面**；③ 按钮重排；④ 下载按钮删除；⑤ 侧边栏拖窄时按钮不被裁掉。全部落地。
+- 唱片 `Turntable` 由 44px 放大到 60px（`size:60` + 容器 60×60），音准 chip 视觉重量跟唱片同级。
+- 音准行不再被裁：去掉 `maxWidth:100% / overflow:hidden` 的硬裁剪，chip 改 `flex:0 0 auto; minWidth:72px`，整行 `white-space:nowrap` 按内容撑宽。
+- hero 左列宽度**不再是固定 px 或百分比**：新增测量 effect（`ResizeObserver` 观察音准行 `scrollWidth`）把实测宽写进 CSS 变量 `--smp-hero-left`，左列 `width: var(--smp-hero-left, 240px)`；歌词列 `flex:1 1 120px`，hero 容器 `flexWrap: wrap` —— 窄到放不下时歌词列自动换到下一行，任何宽度都不裁内容。
+- 播放时间行从进度条下移到**控件行下面**，改为 `flex-start` 左对齐 + `/` 分隔（`0:07 / 4:29`），拖动中提示仍跟在后面。
+- 删除下载按钮：控件行与「⋯ 更多设置」面板两处的 `downloadLink` 引用一并移除，`⋯` 的 tooltip 也去掉「下载」（节点留作死代码 `__smpDlUnused`，后续可清）。
+- 控件行容器由「`flex:0 0 auto` + 横向滚动」改为「`flex:1 1 auto` + `flexWrap:wrap` + 行间距 4px」：窄宽时按钮自动折到第二行，不再有按钮被横向滚出可视区或被裁断。
+
 ## 0.2.22 (2026-11-21) — 面板歌词不再消失 + 空列表点播放直进「我喜欢」
 
 - 修 bug（用户现场：胶囊有歌词、侧边栏面板却显示「无歌词」）：面板歌词汇总通道只认 `lyricLinesRev`，而 QQ 行级/纯文本歌词只更新 store 的 `lyricLine`（行数组恒空、rev 不再增），面板一旦落到 `source:"none"` 就永不刷新。新增「单行歌词」回灌通道（`panelLyricOneRef` 比对 `lyricLine` 变化 → 合成 `plain` 歌词），并把 `lyricLine` 加进 effect 依赖，面板从此与胶囊同源、始终有词。
