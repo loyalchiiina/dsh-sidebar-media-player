@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.34 (2026-11-21) — 频谱样式语义纠正：侧边栏恒全柱，只切胶囊两档
+
+- 按用户澄清重做 0.2.32 引入的「四档频谱样式」：**侧边栏大频谱永远完整柱**，样式开关只切胶囊。
+- 新增偏好 `capsuleStyle`（设置面板「〰️ 胶囊形式」+ 控件行按钮）：
+  - `full` 全柱密集（约 60 根，与侧边栏同款画法）；
+  - `mini` 最初形式（约 13 根粗柱、无倒影/峰值/玻璃底纹）。
+- 删除 `line`（线条）与 `wave`（波形）两种样式（用户认为太 low）；`specStyle` 键保留仅为旧档兼容，实际面板恒为完整柱。
+- `drawSpectrum` 简化档改由 `opt.simple` 触发（只胶囊 mini 档用），不再读全局 specStyle。
+
 ## 0.2.33 (2026-11-21) — 修复「柱子消失」
 
 - 0.2.32 引入的回归：把玻璃底纹改成可关时，只给空的 `glass` 判断包了 `fillRect`，但前两条 `glass.addColorStop(...)` 漏在 `if (glass)` 之外 → 胶囊传 `glass:false` 时 `glass` 为 null，`addColorStop` 抛 TypeError，**整个 drawSpectrum 中断，柱子一根都画不出来**。
