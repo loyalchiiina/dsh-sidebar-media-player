@@ -2,11 +2,11 @@
 
 侧边栏统一音视频播放器，作为 `dsh-better-sidebar` 的配套插件：一个 viewer 同时接管视频与音频预览，并提供独立的**播放器面板**（QQ 音乐在线曲库 + 本地音乐库）、一条可三态摆放的**胶囊播放条**，以及实时频谱 / 音准 / 歌词 / 字幕等播放态增强。
 
-**适配 DSH 内核 0.2.2-rc.1；当前版本 0.2.17。**
+**适配 DSH 内核 0.2.2-rc.1；当前版本 0.2.42。**
 
 > 0.2.6 起，此前记录的已知缺陷（进度条拖不动、切歌/收藏/倍速失效、歌词动效不生效、胶囊位置切换后消失等）已逐项修复；发布前对默认值、源码改动与打包清单做过机器断言核验（校验脚本随源码改动在开发环境执行，未纳入发布包）。仍建议先小范围试用再依赖。
 
-- 版本：0.2.17
+- 版本：0.2.42
 - 依赖：`dsh-better-sidebar`（提供 `ctx.betterSidebar` 文件查看器注册服务；缺失时插件自动降级，不影响 DSH 启动）
 
 ## 免责申明（请先读）
@@ -32,7 +32,7 @@
 
 - 把播放器**整个搬进侧边栏**：`ctx.betterSidebar` viewer 注册、侧边栏播放器面板、页签行（QQ音乐 / 本地音乐 / 隐藏列表 / ⟲ / ⟳）。
 - **胶囊上的按钮**：收藏、上一首、播放暂停、下一首、停止、音量、播放列表，以及与侧边栏按钮一一对应的同一控制源。
-- **界面改造**：控件行 18 枚同风格按钮、胶囊三态位置（上 / 下 / 隐藏）、精简播放条、歌词区与频谱 / 音准区、列表 6–10 列、唱片占位图、翻页与「播放全部」同行。
+- **界面改造**：控件行 17 枚同风格按钮、胶囊三态位置（上 / 下 / 隐藏）、精简播放条、歌词区与频谱 / 音准区、列表 6–10 列、唱片占位图、翻页与「播放全部」同行。
 - **主要功能**：本地音乐库与整文件 Blob seek、收藏与 QQ 音乐「我喜欢」同源、循环三态对手动切歌生效、歌词 5 档动效、字幕、默认值与一次性迁移。
 
 ## 功能
@@ -48,7 +48,8 @@
 
 - **顶部播放器区**：唱盘 + 歌名、歌词区（两句 / 歌词板）、实时频谱（柱状 / 波形）、音准读数（Hz + 音名 + 音分刻度尺）、进度条、控件行。
 - **页签行**：`QQ音乐` / `本地音乐` 两个页签（点页签自动展开列表）+ `隐藏列表`（只留上方播放器）+ `⟲` 刷新 QQ 数据（不重载页面、不中断播放）+ `⟳` 检查更新。
-- **控件行（18 枚候选同风格按钮，同屏最多 17 枚——字幕钮只在视频出现、歌词模式钮只在音频出现；单行不折行）**：收藏、上一首、播放/暂停、下一首、停止、音量、倍速 0.5–2、循环（顺序 → 单曲 → 随机）、频谱开关、频谱样式（柱状/波形）、字幕、歌词开关、歌词模式（两句/歌词板）、歌词动效（无/上滑/模糊/卡拉OK/炫彩 5 档）、胶囊位置（上/下/隐藏）、列表列数（6–10）、精简播放条、下载原文件。
+- **控件行（17 枚候选同风格按钮，同屏最多 16 枚——字幕钮只在视频出现、歌词模式钮只在音频出现；可换行，窄宽也不裁切）**：收藏（已收藏为红色心）、上一首、播放/暂停、下一首、停止、音量、倍速 0.5–2、循环（顺序 → 单曲 → 随机）、频谱开关、胶囊频谱（全柱 / 最初少柱两种画法）、字幕、歌词开关、歌词模式（两句/歌词板）、歌词动效（无/上滑/模糊/卡拉OK/炫彩 5 档）、胶囊位置（上/下/隐藏）、列表列数（6–10）、精简播放条。0.2.23 起移除「下载原文件」按钮（面板「⋯ 更多设置」里也不再提供）。
+- **播放时间**：进度条下方一行、两端贴齐（左当前时间 / 右总时长）；封面卡的副行同时给「当前 / 总时长」，两处同源。
 - 原「系统配置」独立页已并入控件行，不再有单独的设置页。
 
 ### 3. 本地音乐库
@@ -60,7 +61,8 @@
 ### 4. QQ 音乐在线曲库
 
 - 搜索、榜单、歌单（含「我喜欢」）、新歌速递；卡片封面 1:1 `contain` 自适应、VIP 左上角标、播放键右下小圆。
-- **收藏与 QQ 音乐「我喜欢」同源**：胶囊 ♥、面板 ♥、卡片 ♥ 三处读写同一个集合（宿主 `GET /qq/liked` 读、`POST /qq/fav` 写），不是插件自建的本地标记。
+- **收藏与 QQ 音乐「我喜欢」同源**：胶囊 ♥、面板 ♥、卡片 ♥ 三处读写同一个集合（宿主 `GET /qq/liked` 读、`POST /qq/fav` 写），不是插件自建的本地标记。已收藏的 ♥ 显示为**红色**（`--dsw-alias-state-error-primary`，深浅主题由宿主给值）；写入失败时条上给红字提示并回滚图标，判定为登录过期时会同时把面板切回「未登录」并露出扫码入口（0.2.41 起）。
+- **空列表点播放自动进「我喜欢」**：「我喜欢」按 `dirId=201` 定位，没有播放列表时点胶囊上的播放 → 打开面板并从我喜欢的第 1 首开始播（0.2.22 起）。
 - 歌词（含逐字歌词回落）、MV 同源反代（透传 Range/206）。
 - 卡片列数 6–10 可调；「翻页」与「播放全部」同一行，列表区不被页脚占用。
 
@@ -69,7 +71,9 @@
 - **三种位置**：输入框上方（默认）/ 页面底部 / 隐藏。选「隐藏」则完全不渲染胶囊条（侧边栏面板顶部的播放器不受影响）。
 - **精简播放条**：可切换成只留音符 + 歌名的一行（与「隐藏」是两件事）。
 - 条上按钮与面板控件**一一对应、同一控制源**（`SMP_STORE`）：收藏、上一首、播放/暂停、下一首、停止、音量、播放列表。
-- 音量竖条可上下拖动；歌词单行显示并跟随 5 档动效；点歌名可展开/收起。
+- 音量竖条可上下拖动；歌词单行显示并**在剩余空白区居中**（放不下时回退左对齐、只从右端裁切），跟随 5 档动效；点歌名可展开/收起。
+- **条宽实时跟随输入框卡片宽度**：读 `[data-composer-card]` 的 rect 写入 `--smp-card-x` / `--smp-card-w`（每 500ms + ResizeObserver 同步），拖宽输入框条就变宽，不写死像素值。
+- **胶囊频谱两档**：全柱（完整柱形，与侧边栏面板同一套渐变）／最初少柱（18 根色带柱，0.2.37 起照 GitHub v0.2.21 的原实现），由控件行的「胶囊频谱」按钮切换；侧边栏面板频谱始终完整柱形。
 
 ## 默认值（0.2.6 起定稿）
 
@@ -80,6 +84,7 @@
 | 歌词动效 | 炫彩（rainbow） |
 | 循环模式 | 顺序播放 |
 | 频谱 | 打开，柱状 |
+| 胶囊频谱 | 全柱（与面板一致） |
 | 歌词模式 | 两句（duo） |
 
 升级到 0.2.6 时会做一次**一次性迁移**（localStorage 标记 `smp.appearanceRev2`），把上述外观项拉到默认值；之后手动改过的设置完全保留，不再被覆盖。
@@ -98,17 +103,17 @@
 
 | 改了什么 | 怎么生效 |
 |---|---|
-| `lib/client.js`（客户端 bundle） | `Ctrl+Shift+R` 硬刷新；没变化就彻底退出 DSH 再启动 |
+| `lib/client.js`（客户端 bundle） | **彻底退出 DSH 客户端再启动**。本插件以 Junction 挂载为 private 包、未接入 `dsh-client-hmr`，桌面端菜单「重新加载界面」与 Ctrl+R / Ctrl+Shift+R 都不会重新读盘 |
 | `lib/index.js`（宿主端）/ `package.json` / `cordis.patch.yml` | 彻底退出 DSH 客户端再启动 |
 | 面板底部构建戳（`构建 YYYY-MM-DD HH:mm`） | 用来判断是否加载到新 bundle |
 
 ## 截图
 
-![侧边栏播放器面板：唱盘 + 逐行歌词 + 频谱 + 控件行 + QQ 音乐歌单（深色主题）](docs/screenshots/01-panel-playlist-dark.jpg)
+![侧边栏播放器面板：唱盘 + 逐行歌词 + 实时频谱 + 音准读数 + 控件行 + 「我喜欢」歌单（深色主题）](docs/screenshots/01-panel-playlist-dark.jpg)
 
-![贴底胶囊播放条：歌词在剩余空白区居中，点歌名弹出面板（深色主题）](docs/screenshots/02-capsule-popup-dark.jpg)
+![播放器面板另一态：歌词区染色、已收藏的红色心、进度与频谱同位（深色主题）](docs/screenshots/02-panel-lyrics-dark.jpg)
 
-![贴底胶囊播放条与任务面板同屏：条宽实时跟随输入框宽度（深色主题）](docs/screenshots/03-capsule-task-dark.jpg)
+![贴底胶囊播放条：条宽跟随输入框、歌词在剩余空白区居中、右侧是胶囊频谱（深色主题）](docs/screenshots/03-capsule-bar-dark.jpg)
 
 ## 已知限制
 
@@ -148,11 +153,11 @@ dsh-sidebar-media-player/
 
 A unified audio + video player for `dsh-better-sidebar`. One viewer takes over audio/video preview, and the plugin adds its own **player panel** (QQ Music online library + local library) and a **capsule bar** that can sit in three places, plus live spectrum, pitch readout, lyrics and subtitles.
 
-**Adapts the DSH kernel 0.2.2-rc.1; current version 0.2.17.**
+**Adapts the DSH kernel 0.2.2-rc.1; current version 0.2.42.**
 
 > Since 0.2.6, the previously documented defects (undroppable scrubber, dead next/favourite/rate controls, lyrics effects not applying, capsule disappearing after changing position) have been fixed one by one. Defaults, source changes and the packed file list were checked with machine assertions during development; those check scripts live in the development environment and are not shipped in this package. Trying it on a small scale first is still recommended.
 
-- Version: 0.2.17
+- Version: 0.2.42
 - Requires: `dsh-better-sidebar` (provides the `ctx.betterSidebar` viewer registration service; when absent the plugin degrades gracefully and never blocks DSH startup)
 
 ## Disclaimer (please read first)
@@ -204,7 +209,8 @@ This plugin is a **third-party hobby tool. It is not an official QQ Music produc
 ### 4. QQ Music online library
 
 - Search, charts, playlists (including "I like"), new songs; 1:1 `contain` artwork, VIP corner badge, small play button.
-- **Favourites are shared with QQ Music's own "I like"**: capsule heart, panel heart and card heart all read and write the same remote collection (host `GET /qq/liked` / `POST /qq/fav`), not a local flag.
+- **Favourites are shared with QQ Music's own "I like"**: capsule heart, panel heart and card heart all read and write the same remote collection (host `GET /qq/liked` / `POST /qq/fav`), not a local flag. A liked heart turns **red** (`--dsw-alias-state-error-primary`); a failed write shows a red hint on the bar and rolls the icon back, and an expired login also flips the panel to "not signed in" with the QR entry (0.2.41).
+- **An empty queue plays "I like" first**: with no playlist loaded, pressing play on the capsule opens the panel and starts the first track of "I like" (`dirId=201`, 0.2.22).
 - Lyrics (with word-by-word fallback), MV proxied same-origin with Range/206 passthrough.
 - Grid columns adjustable 6–10; pager sits on the same line as "Play all" so the list never loses a row to the footer.
 
@@ -238,17 +244,17 @@ Upgrading to 0.2.6 runs a **one-time migration** (localStorage marker `smp.appea
 
 | What changed | How to apply |
 |---|---|
-| `lib/client.js` (client bundle) | `Ctrl+Shift+R` hard refresh; if nothing changes, fully quit and relaunch DSH |
+| `lib/client.js` (client bundle) | **Fully quit and relaunch DSH.** The plugin is mounted as a private package through a Junction and does not use `dsh-client-hmr`, so neither the desktop "Reload interface" menu nor Ctrl+R / Ctrl+Shift+R re-reads the bundle from disk |
 | `lib/index.js` (host) / `package.json` / `cordis.patch.yml` | Fully quit and relaunch DSH |
 | Build stamp at the panel bottom (`构建 YYYY-MM-DD HH:mm`) | Tells you whether the new bundle is loaded |
 
 ## Screenshots
 
-![The sidebar player panel: turntable, synced lyrics, spectrum, control row and the QQ Music playlist (dark theme)](docs/screenshots/01-panel-playlist-dark.jpg)
+![The sidebar player panel: turntable, synced lyrics, live spectrum, pitch readout, control row and the "I like" playlist (dark theme)](docs/screenshots/01-panel-playlist-dark.jpg)
 
-![The bottom capsule bar: lyric centered in the leftover space, click the song title to open the panel (dark theme)](docs/screenshots/02-capsule-popup-dark.jpg)
+![Second panel state: tinted lyric area, red liked heart, progress row and spectrum (dark theme)](docs/screenshots/02-panel-lyrics-dark.jpg)
 
-![The bottom capsule bar beside the task panel: bar width tracks the composer width live (dark theme)](docs/screenshots/03-capsule-task-dark.jpg)
+![The bottom capsule bar: width tracks the composer, lyric centered in the leftover space, capsule spectrum on the right (dark theme)](docs/screenshots/03-capsule-bar-dark.jpg)
 
 ## Known limitations
 

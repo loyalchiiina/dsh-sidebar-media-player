@@ -5,6 +5,7 @@
 - 改造：**已收藏的 ♥ 改成红色**。三处收藏心统一走同一个令牌 `--dsw-alias-state-error-primary`（与面板错误 toast `.dsh-music-panel-toast.err` 同一令牌，fallback `#e5534b`，浅/深主题由宿主给值）：贴底胶囊 `.dsh-music-bar-btn.fav.on`、播放器面板 ❤（`cfgBtn` 新增可选 `onStyle` 参数，只给收藏钮染红，其它激活钮仍用品牌色底）、QQ 音乐卡片 `.smp-qq-card-fav.on`。
 - 调整：胶囊未收藏态悬停由「变白」改为「变亮到 label-primary」，已收藏态悬停保持红并 `filter: brightness(1.15)` 提亮 —— 原来悬停会把红心刷成白色，看着像被取消。
 - 说明（写给后来人）：收藏态以前用 `--dsh-music-accent`（播放器品牌绿），语义上不对；官方主题令牌里没有专门的「收藏红」，`--dsw-alias-state-error-primary` 是唯一现成的红色语义令牌。
+- 文档：插件市场效果图换新为三张深色实拍（面板全貌 / 面板歌词态 / 贴底胶囊条），`screenshots.json` 同步更新；README 中英双语补齐 0.2.22~0.2.42 的新特性（收藏红与登录过期提示、空列表点播放进「我喜欢」、胶囊频谱两档、条宽跟随输入框、歌词居中、唱盘换代、控件行 17 枚），并撤掉「Ctrl+Shift+R 硬刷新」这条与桌面端实测相反、会把用户带偏的生效方式说明。
 
 ## 0.2.41
 
