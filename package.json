@@ -1,6 +1,6 @@
 {
   "name": "dsh-sidebar-media-player",
-  "version": "0.2.26",
+  "version": "0.2.27",
   "description": "Unified audio + video player for dsh-better-sidebar: a sidebar viewer for mp4/webm/mov/m4v/ogv and mp3/wav/flac/ogg/opus/m4a/aac with a draggable Range(206) scrubber, live spectrum and pitch, plus a player panel (QQ Music online library with favourites synced to the account, local music library), subtitles, lyrics with 5 effects, and a capsule bar that can dock above the input box, sit at the bottom, or be hidden. Third-party hobby tool, not an official QQ Music product; the capsule UI and the QQ Music API layer are adapted from an upstream MIT project (dsh-music-player v1.0.4), while the sidebar move, buttons, UI rework and main features are original.",
   "type": "module",
   "main": "lib/index.js",
