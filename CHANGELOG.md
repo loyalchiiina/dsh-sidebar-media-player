@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.33 (2026-11-21) — 修复「柱子消失」
+
+- 0.2.32 引入的回归：把玻璃底纹改成可关时，只给空的 `glass` 判断包了 `fillRect`，但前两条 `glass.addColorStop(...)` 漏在 `if (glass)` 之外 → 胶囊传 `glass:false` 时 `glass` 为 null，`addColorStop` 抛 TypeError，**整个 drawSpectrum 中断，柱子一根都画不出来**。
+- 修复：三条 addColorStop + fillStyle + fillRect 全部收进 `if (glass) { ... }`。
+- 已用 Node 仿真跑通四档绘制调用（full/simple 各 62 次 fill、line/wave 各 1 次 stroke，无异常）。
 ## 0.2.32 (2026-11-21) — 胶囊频谱底色去掉 + 频谱样式扩为四档
 
 - 胶囊频谱「背景弄消失、和背景一样（浅色主题下就是白）」：canvas 不再自带 background/border/box-shadow，且给胶囊传 `glass:false`，不画那层半透明白黑渐变；底色完全随播放条背景。
