@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.42
+
+- 改造：**已收藏的 ♥ 改成红色**。三处收藏心统一走同一个令牌 `--dsw-alias-state-error-primary`（与面板错误 toast `.dsh-music-panel-toast.err` 同一令牌，fallback `#e5534b`，浅/深主题由宿主给值）：贴底胶囊 `.dsh-music-bar-btn.fav.on`、播放器面板 ❤（`cfgBtn` 新增可选 `onStyle` 参数，只给收藏钮染红，其它激活钮仍用品牌色底）、QQ 音乐卡片 `.smp-qq-card-fav.on`。
+- 调整：胶囊未收藏态悬停由「变白」改为「变亮到 label-primary」，已收藏态悬停保持红并 `filter: brightness(1.15)` 提亮 —— 原来悬停会把红心刷成白色，看着像被取消。
+- 说明（写给后来人）：收藏态以前用 `--dsh-music-accent`（播放器品牌绿），语义上不对；官方主题令牌里没有专门的「收藏红」，`--dsw-alias-state-error-primary` 是唯一现成的红色语义令牌。
+
 ## 0.2.41
 
 - 修复：收藏失败时**如实说出「登录已过期」**。0.2.40 已能把接口真原因带回前端，但真原因是 `code=1000`；本轮用零副作用探针把 1000 的语义测穿了：QQ 旧网页 CGI 的原话是 `{"code":1000,"msg":"请先登录！"}`，`music.musicasset.*` 一族（`IsSongFanByMid` 只读 / `PlaylistDetailWrite` 写入）无论把 comm 换成安卓身份、加设备指纹、换四键 Cookie、换 g_tk 算法，一律 1000 —— 结论是**这份 cookie 对写业务已失效（只读通道还能用，所以之前「登录态活着」的判断是假阳性）**。
