@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.37 (2026-11-21) — 胶囊「最初少柱」档抄成 GitHub 最新发布版（v0.2.21）原样
+
+- 问题：0.2.36 抄的是本地仓库 0.2.7 的私有小柱实现（13 根圆顶柱），不是用户要的「GitHub 最新版本」效果。
+- 修法：从 `origin/main`（v0.2.21，commit 065d015）原样取胶囊频谱口径 —— `SMP_VIZ_W=60 / SMP_VIZ_H=26 / MIN_BARS=8 / MAX_BARS=18`、绘制 `drawSpectrum(..., { safePx: 2, barSlotPx: 3.5, st: __smpMiniState })`（玻璃底纹、倒影、峰值保持全开）、canvas CSS `60×20`（窄宽档 75%）。
+- 实现：`--smp-viz-w/--smp-viz-h` 两个 CSS 变量驱动画布尺寸，mini 档 60×20 / full 档 96×36，切换即时生效。
+- full 档不变（96×36、柱数 24~72、槽宽 1.5px），侧边栏面板频谱恒为完整柱。
+
 ## 0.2.36 (2026-11-21) — 胶囊「最初少柱」档抄回 0.2.7 原始小柱画法
 
 - 问题：0.2.34 的 mini 档走 `drawSpectrum(simple:true)`，画出来是细长锥形柱，太丑。
