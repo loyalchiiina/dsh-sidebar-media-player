@@ -1,3 +1,11 @@
+## 1.0.1 — 2026-11-26
+
+性能：取消无条件高频轮询（用户 2026-11-26「减少卡顿」）
+
+- `syncAll`（composer 定位条）：500ms 常驻 → 1500ms，且加了变化判据（left/width 没变就不写 CSS 变量），并新增 scroll（capture）监听补触发；`document.hidden` 时整轮跳过。
+- `useSeatWidth` / `useColumnMetrics` 的 1000ms `measure()`：`document.hidden` 跳过，新增 `visibilitychange` 回前台立刻补量一次，清理函数同步移除监听。
+- 效果：可见时定位/量宽逻辑不再每 500ms 强制一次同步布局；最小化或切到别的程序时这些轮询完全不跑。
+
 # Changelog
 
 ## 1.0.0（2026-11-25） · 稳定版
