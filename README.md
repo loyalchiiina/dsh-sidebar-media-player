@@ -115,11 +115,11 @@
 
 ## 截图
 
-![侧边栏播放器面板：唱盘 + 逐行歌词 + 实时频谱 + 音准读数 + 控件行 + 「我喜欢」歌单（深色主题）](docs/screenshots/01-panel-playlist-dark.jpg)
+![侧边栏播放器面板：唱盘 + 歌词区 + 实时频谱 + 音准读数 + 主控行（含末尾「绿钻」「VIP」两枚跳过开关）+ 「我喜欢」歌单，卡片角标显示 VIP✕ 与试听（深色主题）](docs/screenshots/01-panel-playlist-dark.png)
 
-![播放器面板另一态：歌词区染色、已收藏的红色心、进度与频谱同位（深色主题）](docs/screenshots/02-panel-lyrics-dark.jpg)
+![贴底胶囊播放条：条宽跟随输入框、歌词居中、右侧频谱，最右是主控行（含「绿钻」「VIP」跳过开关）（深色主题）](docs/screenshots/02-capsule-bar-dark.png)
 
-![贴底胶囊播放条：条宽跟随输入框、歌词在剩余空白区居中、右侧是胶囊频谱（深色主题）](docs/screenshots/03-capsule-bar-dark.jpg)
+![胶囊播放条紧凑态：一层高度，曲名/歌手 + 频谱 + 歌词（深色主题）](docs/screenshots/03-capsule-bar-mini-dark.png)
 
 ## 已知限制
 
@@ -262,11 +262,11 @@ Upgrading to 0.2.6 runs a **one-time migration** (localStorage marker `smp.appea
 
 ## Screenshots
 
-![The sidebar player panel: turntable, synced lyrics, live spectrum, pitch readout, control row and the "I like" playlist (dark theme)](docs/screenshots/01-panel-playlist-dark.jpg)
+![The sidebar player panel: turntable, lyric area, live spectrum, pitch readout, main control row (with the 「绿钻」/「VIP」skip switches at its tail) and the "I like" playlist whose cards carry VIP✕ / 试听 badges (dark theme)](docs/screenshots/01-panel-playlist-dark.png)
 
-![Second panel state: tinted lyric area, red liked heart, progress row and spectrum (dark theme)](docs/screenshots/02-panel-lyrics-dark.jpg)
+![The bottom capsule bar: width tracks the composer, lyric centered, spectrum on the right, control row with the 「绿钻」/「VIP」skip switches (dark theme)](docs/screenshots/02-capsule-bar-dark.png)
 
-![The bottom capsule bar: width tracks the composer, lyric centered in the leftover space, capsule spectrum on the right (dark theme)](docs/screenshots/03-capsule-bar-dark.jpg)
+![Compact capsule bar: one row, title/artist + spectrum + lyric (dark theme)](docs/screenshots/03-capsule-bar-mini-dark.png)
 
 ## Known limitations
 
