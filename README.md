@@ -65,6 +65,12 @@
 - **空列表点播放自动进「我喜欢」**：「我喜欢」按 `dirId=201` 定位，没有播放列表时点胶囊上的播放 → 打开面板并从我喜欢的第 1 首开始播（0.2.22 起）。
 - 歌词（含逐字歌词回落）、MV 同源反代（透传 Range/206）。
 - 卡片列数 6–10 可调；「翻页」与「播放全部」同一行，列表区不被页脚占用。
+- **VIP / 绿钻 双开关（1.0.6 起，VIP 默认开）**：账号不是 VIP 时，点 VIP 曲会让后端取链 404、播放条报「无法获取播放地址」，整排 VIP 的歌单等于听不了。所以播放器主控行末尾有两枚黑白「净音」开关，**默认已开启 VIP 跳过**：
+  - **「VIP」开关**（默认开）：点歌、「播放全部」、上一首/下一首、播完自动连播（顺序与随机两种模式）**全部跳过 VIP 曲**，直接落到下一位可播的；整套队列都是 VIP 时给一句明确提示而不是静默卡住。状态存 `prefs.skipVip`。
+  - **「绿钻」开关**（默认关）：勾上「只听完全免费的」时连绿钻曲一起整首跳过，**并自动把「VIP」一起勾上**（取消绿钻只关它自己）。状态存 `prefs.greenOnly`。
+  - 两枚按钮都在**播放器主控行**（音量、倍速、循环那一排）后半段图标组末尾，绿钻在前、VIP 在后；开启态实心、关闭态降透明度，只走主题语义色，深色/浅色主题都不会花。
+  - 卡片角标同步反映状态：VIP 曲开启跳过时角标由 `VIP` 变红字 `VIP✕`；绿钻曲标「试听」并提示「可完整播放（仅下载与无损音质需绿钻）」——**实测绿钻曲在线可整首播放**（`paydownload` 只锁下载）。
+  - 早期 1.0.2 版曾有胶囊条与 QQ 面板工具条两个文字入口，**均已移除**，现在只有主控行这一处。
 
 ### 5. 胶囊播放条
 
@@ -213,6 +219,12 @@ This plugin is a **third-party hobby tool. It is not an official QQ Music produc
 - **An empty queue plays "I like" first**: with no playlist loaded, pressing play on the capsule opens the panel and starts the first track of "I like" (`dirId=201`, 0.2.22).
 - Lyrics (with word-by-word fallback), MV proxied same-origin with Range/206 passthrough.
 - Grid columns adjustable 6–10; pager sits on the same line as "Play all" so the list never loses a row to the footer.
+- **VIP / green-diamond switches (new in 1.0.6, VIP skip on by default)**: on a non-VIP account, tapping a VIP track makes the host return 404 and the bar reports "cannot get playback URL", so a playlist full of VIP tracks is effectively unplayable. Two monochrome switches therefore sit at the end of the player's main control row, and **VIP skip starts enabled**:
+  - **"VIP" switch** (on by default): track clicks, "Play all", previous/next and end-of-track auto-advance (both sequential and shuffle) **all skip VIP tracks** and land on the next playable one; when the whole queue is VIP you get an explicit message instead of a silent stall. State lives in `prefs.skipVip`.
+  - **"绿钻" switch** (off by default): turn it on to skip green-diamond tracks entirely as well ("only completely free tracks"), and it **automatically turns the "VIP" switch on too** (turning green-diamond off only disables itself). State lives in `prefs.greenOnly`.
+  - Both live in the **player main control row** (the volume / speed / loop row), at the tail of the icon group, green-diamond first then VIP; the enabled state is filled, the disabled state is dimmed, and only theme semantic colors are used, so dark and light themes both look clean.
+  - Card badges follow the state: a VIP card shows a red `VIP✕` instead of `VIP` while skipping is on, and green-diamond cards are labeled 「试听」 with the tooltip "plays in full (only downloads and lossless quality need green diamond)" — **measured: green-diamond tracks play in full online**; `paydownload` only locks downloads.
+  - Versions up to 1.0.2 had two text entry points (capsule bar and QQ panel toolbar); **both were removed**, the main control row is the only entry now.
 
 ### 5. Capsule bar
 
