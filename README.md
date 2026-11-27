@@ -2,11 +2,11 @@
 
 侧边栏统一音视频播放器，作为 `dsh-better-sidebar` 的配套插件：一个 viewer 同时接管视频与音频预览，并提供独立的**播放器面板**（QQ 音乐在线曲库 + 本地音乐库）、一条可三态摆放的**胶囊播放条**，以及实时频谱 / 音准 / 歌词 / 字幕等播放态增强。
 
-**适配 DSH 内核 0.2.2-rc.1 及以上（本机官方 0.2.3-alpha.2 实测）；当前版本 1.0.0。**
+**适配 DSH 内核 0.2.3-alpha.2（本机官方实测）· 最低要求 0.2.2-rc.1；当前版本 1.0.7。**
 
 > 0.2.6 起，此前记录的已知缺陷（进度条拖不动、切歌/收藏/倍速失效、歌词动效不生效、胶囊位置切换后消失等）已逐项修复；发布前对默认值、源码改动与打包清单做过机器断言核验（校验脚本随源码改动在开发环境执行，未纳入发布包）。仍建议先小范围试用再依赖。
 
-- 版本：1.0.0
+- 版本：1.0.7
 - 依赖：`dsh-better-sidebar`（提供 `ctx.betterSidebar` 文件查看器注册服务；缺失时插件自动降级，不影响 DSH 启动）
 
 ## 免责申明（请先读）
@@ -32,7 +32,7 @@
 
 - 把播放器**整个搬进侧边栏**：`ctx.betterSidebar` viewer 注册、侧边栏播放器面板、页签行（QQ音乐 / 本地音乐 / 隐藏列表 / ⟲ / ⟳）。
 - **胶囊上的按钮**：收藏、上一首、播放暂停、下一首、停止、音量、播放列表，以及与侧边栏按钮一一对应的同一控制源。
-- **界面改造**：控件行 17 枚同风格按钮、胶囊三态位置（上 / 下 / 隐藏）、精简播放条、歌词区与频谱 / 音准区、列表 6–10 列、唱片占位图、翻页与「播放全部」同行。
+- **界面改造**：控件行 19 枚候选同风格按钮、胶囊三态位置（上 / 下 / 隐藏）、精简播放条、歌词区与频谱 / 音准区、列表 6–10 列、唱片占位图、翻页与「播放全部」同行。
 - **主要功能**：本地音乐库与整文件 Blob seek、收藏与 QQ 音乐「我喜欢」同源、循环三态对手动切歌生效、歌词 5 档动效、字幕、默认值与一次性迁移。
 
 ## 功能
@@ -46,9 +46,9 @@
 
 ### 2. 侧边栏播放器面板（两个页签：QQ音乐 / 本地音乐）
 
-- **顶部播放器区**：唱盘 + 歌名、歌词区（两句 / 歌词板）、实时频谱（柱状 / 波形）、音准读数（Hz + 音名 + 音分刻度尺）、进度条、控件行。
+- **顶部播放器区**：唱盘 + 歌名、歌词区（两句 / 歌词板）、实时频谱（完整柱状）、音准读数（Hz + 音名 + 音分刻度尺）、进度条、控件行。
 - **页签行**：`QQ音乐` / `本地音乐` 两个页签（点页签自动展开列表）+ `隐藏列表`（只留上方播放器）+ `⟲` 刷新 QQ 数据（不重载页面、不中断播放）+ `⟳` 检查更新。
-- **控件行（17 枚候选同风格按钮，同屏最多 16 枚——字幕钮只在视频出现、歌词模式钮只在音频出现；可换行，窄宽也不裁切）**：收藏（已收藏为红色心）、上一首、播放/暂停、下一首、停止、音量、倍速 0.5–2、循环（顺序 → 单曲 → 随机）、频谱开关、胶囊频谱（全柱 / 最初少柱两种画法）、字幕、歌词开关、歌词模式（两句/歌词板）、歌词动效（无/上滑/模糊/卡拉OK/炫彩 5 档）、胶囊位置（上/下/隐藏）、列表列数（6–10）、精简播放条。0.2.23 起移除「下载原文件」按钮（面板「⋯ 更多设置」里也不再提供）。
+- **控件行（19 枚候选同风格按钮，音频同屏 18 枚、视频同屏 17 枚——字幕钮只在视频且检测到字幕文件时出现、歌词开关与歌词模式钮只在音频出现；按钮行可换行，窄宽也不裁切）**：收藏（已收藏为红色心）、上一首、播放/暂停、下一首、停止、音量、倍速 0.5–2、循环（顺序 → 单曲 → 随机）、频谱开关、胶囊频谱（全柱 / 最初少柱两种画法）、字幕、歌词开关、歌词模式（两句/歌词板）、歌词动效（无/上滑/模糊/卡拉OK/炫彩 5 档）、胶囊位置（上/下/隐藏）、列表列数（6–10）、精简播放条。0.2.23 起移除「下载原文件」按钮（面板「⋯ 更多设置」里也不再提供）。
 - **播放时间**：进度条下方一行、两端贴齐（左当前时间 / 右总时长）；封面卡的副行同时给「当前 / 总时长」，两处同源。
 - 原「系统配置」独立页已并入控件行，不再有单独的设置页。
 
@@ -78,8 +78,9 @@
 - **精简播放条**：可切换成只留音符 + 歌名的一行（与「隐藏」是两件事）。
 - 条上按钮与面板控件**一一对应、同一控制源**（`SMP_STORE`）：收藏、上一首、播放/暂停、下一首、停止、音量、播放列表。
 - 音量竖条可上下拖动；歌词单行显示并**在剩余空白区居中**（放不下时回退左对齐、只从右端裁切），跟随 5 档动效；点歌名可展开/收起。
+- **按钮弹出时署名退场、歌词不被挤压（1.0.7）**：鼠标移到条右端或打开音量面板，按钮组展开；此时作词作曲署名淡出并把占位一起收走（`max-width` 收到 0），内容整体左移，腾出的宽度全给歌词，长句也能完整显示；按钮收起时署名自动滑回原位。
 - **条宽实时跟随输入框卡片宽度**：读 `[data-composer-card]` 的 rect 写入 `--smp-card-x` / `--smp-card-w`（每 500ms + ResizeObserver 同步），拖宽输入框条就变宽，不写死像素值。
-- **胶囊频谱两档**：全柱（完整柱形，与侧边栏面板同一套渐变）／最初少柱（18 根色带柱，0.2.37 起照 GitHub v0.2.21 的原实现），由控件行的「胶囊频谱」按钮切换；侧边栏面板频谱始终完整柱形。
+- **胶囊频谱两档**：全柱（完整柱形，与侧边栏面板同一套渐变）／最初少柱（按画布宽自适应 8~18 根色带柱，dpr=1 时约 16 根；0.2.37 起照 GitHub v0.2.21 的原实现），由控件行的「胶囊频谱」按钮切换；侧边栏面板频谱始终完整柱形。
 
 ## 默认值（0.2.6 起定稿）
 
@@ -159,11 +160,11 @@ dsh-sidebar-media-player/
 
 A unified audio + video player for `dsh-better-sidebar`. One viewer takes over audio/video preview, and the plugin adds its own **player panel** (QQ Music online library + local library) and a **capsule bar** that can sit in three places, plus live spectrum, pitch readout, lyrics and subtitles.
 
-**Adapts the DSH kernel 0.2.2-rc.1 or above (verified locally on official 0.2.3-alpha.2); current version 1.0.0.**
+**Adapts the DSH kernel 0.2.3-alpha.2 (verified locally on the official build), minimum 0.2.2-rc.1; current version 1.0.7.**
 
 > Since 0.2.6, the previously documented defects (undroppable scrubber, dead next/favourite/rate controls, lyrics effects not applying, capsule disappearing after changing position) have been fixed one by one. Defaults, source changes and the packed file list were checked with machine assertions during development; those check scripts live in the development environment and are not shipped in this package. Trying it on a small scale first is still recommended.
 
-- Version: 1.0.0
+- Version: 1.0.7
 - Requires: `dsh-better-sidebar` (provides the `ctx.betterSidebar` viewer registration service; when absent the plugin degrades gracefully and never blocks DSH startup)
 
 ## Disclaimer (please read first)
@@ -201,9 +202,9 @@ This plugin is a **third-party hobby tool. It is not an official QQ Music produc
 
 ### 2. Player panel (two tabs: QQ音乐 / 本地音乐)
 
-- **Top player area**: turntable + title, lyrics (two-line or lyric board), live spectrum (bars or wave), pitch readout (Hz + note name + cents ruler), scrubber, control row.
+- **Top player area**: turntable + title, lyrics (two-line or lyric board), live spectrum (full bars), pitch readout (Hz + note name + cents ruler), scrubber, control row.
 - **Tab row**: `QQ音乐` / `本地音乐` tabs (clicking a tab auto-expands the list) + `Hide list` (keeps only the top player) + `⟲` refresh QQ data (no page reload, no playback interruption) + `⟳` check for updates.
-- **Control row (18 candidate buttons in one style, at most 17 on screen — the subtitle button only appears for video and the lyric-mode button only for audio; one line, no wrapping)**: favourite, previous, play/pause, next, stop, volume, playback rate 0.5–2, loop (order → single → shuffle), spectrum on/off, spectrum style (bars/wave), subtitles, lyrics on/off, lyric mode (two-line/board), lyric effect (none/slide/blur/karaoke/rainbow), capsule position (top/bottom/hidden), grid columns (6–10), compact bar, download original file.
+- **Control row (19 candidate buttons in one style — 18 on screen for audio, 17 for video: the subtitle button only appears for video with a subtitle file detected, the lyrics on/off and lyric-mode buttons only for audio; the row wraps on narrow widths without clipping)**: favourite, previous, play/pause, next, stop, volume, playback rate 0.5–2, loop (order → single → shuffle), spectrum on/off, capsule spectrum (full / thin bars), subtitles, lyrics on/off, lyric mode (two-line/board), lyric effect (none/slide/blur/karaoke/rainbow), capsule position (top/bottom/hidden), grid columns (6–10), compact bar. The "download original file" button was removed in 0.2.23 (and is absent from the "⋯ more settings" menu too).
 - The former standalone "settings" tab has been folded into this control row.
 
 ### 3. Local music library
@@ -232,6 +233,7 @@ This plugin is a **third-party hobby tool. It is not an official QQ Music produc
 - **Compact mode** shrinks it to one line with just a note glyph and the title.
 - Every capsule button **maps one-to-one onto a panel control** through the same store (`SMP_STORE`): favourite, previous, play/pause, next, stop, volume, playlist.
 - Vertical volume slider is draggable; the single-line lyric follows the same 5 lyric effects.
+- **Credits step aside when the buttons open (1.0.7)**: hovering the right end of the bar or opening the volume popover expands the button cluster; the songwriter credits then fade out **and give up their layout space** (`max-width` collapses to 0), everything shifts left and the reclaimed width goes to the lyric, so even a long line shows in full. When the buttons retract the credits slide back.
 
 ## Defaults (as of 0.2.6)
 
